@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Foundation Forward Consulting — Portfolio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;1,9..144,300;1,9..144,400&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --black:   #0d0d0d;
+      --white:   #ffffff;
+      --off:     #f8f7f5;
+      --gray:    #6b6b6b;
+      --light:   #e8e6e2;
+      --pop1:    #c9a84c;   /* gold */
+      --pop2:    #2d6a4f;   /* deep green */
+      --pop3:    #c94c4c;   /* warm red */
+      --border:  #e2e0dc;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--white);
+      color: var(--black);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 15px;
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── NAV ── */
+    nav {
+      padding: 1.5rem 3rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      background: rgba(255,255,255,0.94);
+      backdrop-filter: blur(10px);
+      z-index: 100;
+    }
+
+    .nav-name {
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: 1.05rem;
+      font-weight: 300;
+      color: var(--black);
+      text-decoration: none;
+      letter-spacing: 0.01em;
+    }
+
+    .nav-name em {
+      font-style: italic;
+      color: var(--pop1);
+    }
+
+    .nav-contact {
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--black);
+      text-decoration: none;
+      position: relative;
+    }
+
+    .nav-contact::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 0;
+      height: 1.5px;
+      background: var(--pop1);
+      transition: width 0.25s;
+    }
+
+    .nav-contact:hover::after { width: 100%; }
+
+    /* ── HERO ── */
+    .hero {
+      padding: 7rem 3rem 6rem;
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6rem;
+      align-items: end;
+    }
+
+    .hero-left h1 {
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: clamp(2.8rem, 5vw, 4.2rem);
+      font-weight: 300;
+      line-height: 1.1;
+      color: var(--black);
+      letter-spacing: -0.01em;
+    }
+
+    .hero-left h1 em {
+      font-style: italic;
+      color: var(--pop2);
+    }
+
+    .hero-right {
+      padding-bottom: 0.5rem;
+    }
+
+    .hero-right p {
+      font-size: 1rem;
+      color: var(--gray);
+      line-height: 1.8;
+      max-width: 380px;
+    }
+
+    .hero-right p + p { margin-top: 1rem; }
+
+    .hero-right strong { color: var(--black); font-weight: 600; }
+
+    /* ── MARQUEE STRIP ── */
+    .marquee-wrap {
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      overflow: hidden;
+      padding: 0.85rem 0;
+      background: var(--off);
+    }
+
+    .marquee-track {
+      display: flex;
+      gap: 3rem;
+      animation: marquee 22s linear infinite;
+      white-space: nowrap;
+      width: max-content;
+    }
+
+    .marquee-track span {
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--gray);
+      flex-shrink: 0;
+    }
+
+    .marquee-track span.dot {
+      color: var(--pop1);
+      letter-spacing: 0;
+    }
+
+    @keyframes marquee {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+
+    /* ── CASE STUDIES ── */
+    .work {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 6rem 3rem;
+    }
+
+    .work-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 4rem;
+    }
+
+    .work-header h2 {
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: 0.85rem;
+      font-weight: 300;
+      font-style: italic;
+      color: var(--gray);
+      letter-spacing: 0.04em;
+    }
+
+    .work-header-line {
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+      margin: 0 2rem;
+    }
+
+    .work-count {
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--gray);
+    }
+
+    /* ── SINGLE CASE STUDY ── */
+    .cs {
+      display: grid;
+      grid-template-columns: 80px 1fr;
+      gap: 0 3rem;
+      padding: 3.5rem 0;
+      border-top: 1px solid var(--border);
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.55s ease, transform 0.55s ease;
+    }
+
+    .cs.visible { opacity: 1; transform: translateY(0); }
+    .cs:last-child { border-bottom: 1px solid var(--border); }
+
+    /* Number column */
+    .cs-num {
+      padding-top: 0.25rem;
+    }
+
+    .cs-num span {
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: 0.85rem;
+      font-weight: 300;
+      font-style: italic;
+      color: var(--light);
+    }
+
+    /* Content column */
+    .cs-body {}
+
+    .cs-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 2rem;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .cs-client-block {}
+
+    .cs-client {
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--gray);
+      margin-bottom: 0.3rem;
+    }
+
+    .cs-headline {
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: 1.55rem;
+      font-weight: 300;
+      line-height: 1.25;
+      color: var(--black);
+      max-width: 540px;
+    }
+
+    .cs-badge {
+      font-size: 0.6rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 0.25rem 0.65rem;
+      border-radius: 20px;
+      flex-shrink: 0;
+      margin-top: 0.25rem;
+    }
+
+    .badge-active { background: rgba(45,106,79,0.1); color: var(--pop2); }
+    .badge-dev    { background: rgba(201,168,76,0.12); color: #8a6f20; }
+
+    /* Accent bar */
+    .cs-accent {
+      width: 32px;
+      height: 3px;
+      border-radius: 2px;
+      margin: 1.25rem 0;
+    }
+
+    .accent-1 { background: var(--pop1); }
+    .accent-2 { background: var(--pop2); }
+    .accent-3 { background: var(--pop3); }
+
+    /* Blocks */
+    .cs-blocks {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 2rem;
+      margin-bottom: 1.75rem;
+    }
+
+    .cs-block-label {
+      font-size: 0.6rem;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--gray);
+      margin-bottom: 0.5rem;
+    }
+
+    .cs-block p {
+      font-size: 0.875rem;
+      color: #444444;
+      line-height: 1.75;
+    }
+
+    .cs-block strong { color: var(--black); font-weight: 600; }
+
+    /* Tags */
+    .cs-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+    }
+
+    .cs-tag {
+      font-size: 0.62rem;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      color: var(--gray);
+      background: var(--off);
+      border: 1px solid var(--border);
+      padding: 0.2rem 0.6rem;
+      border-radius: 3px;
+    }
+
+    /* ── CLOSING ── */
+    .closing {
+      background: var(--off);
+      border-top: 1px solid var(--border);
+      padding: 6rem 3rem;
+    }
+
+    .closing-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6rem;
+      align-items: center;
+    }
+
+    .closing h2 {
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      font-weight: 300;
+      line-height: 1.15;
+      color: var(--black);
+    }
+
+    .closing h2 em {
+      font-style: italic;
+      color: var(--pop1);
+    }
+
+    .closing-right p {
+      font-size: 0.95rem;
+      color: var(--gray);
+      line-height: 1.8;
+      margin-bottom: 2rem;
+    }
+
+    .closing-btn {
+      display: inline-block;
+      background: var(--black);
+      color: var(--white);
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      text-decoration: none;
+      padding: 0.9rem 2rem;
+      border-radius: 3px;
+      transition: background 0.2s, transform 0.2s;
+    }
+
+    .closing-btn:hover { background: var(--pop2); transform: translateY(-2px); }
+
+    /* ── FOOTER ── */
+    footer {
+      padding: 1.25rem 3rem;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    footer p { font-size: 0.7rem; color: var(--gray); }
+    footer a { color: var(--gray); text-decoration: none; }
+    footer a:hover { color: var(--black); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      nav { padding: 1.25rem 1.5rem; }
+      .hero { grid-template-columns: 1fr; gap: 2.5rem; padding: 5rem 1.5rem 4rem; }
+      .hero-right p { max-width: 100%; }
+      .work { padding: 4rem 1.5rem; }
+      .cs { grid-template-columns: 1fr; gap: 1rem; }
+      .cs-num { display: none; }
+      .cs-blocks { grid-template-columns: 1fr; gap: 1.5rem; }
+      .closing { padding: 4rem 1.5rem; }
+      .closing-inner { grid-template-columns: 1fr; gap: 2.5rem; }
+      footer { padding: 1.25rem 1.5rem; flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-name">Foundation <em>Forward</em></a>
+  <a href="mailto:klohr@foundationforwardacademics.com" class="nav-contact">Get in touch</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <h1>From what<br>you know<br>to <em>what they<br>learn.</em></h1>
+  </div>
+  <div class="hero-right">
+    <p style="font-size:1.05rem; font-weight:600; color:#0d0d0d; margin-bottom:1.25rem;">I help coaches and small businesses turn their expertise into online courses and learning experiences that actually work.</p>
+    <p>Most learning projects start with content. That is the wrong starting point. The right starting point is the learner and the business problem behind them.</p>
+    <p><strong>What does this person need to be able to do? What is the simplest experience that gets them there?</strong> The answer is usually smaller than expected and more strategic than a course.</p>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-wrap">
+  <div class="marquee-track">
+    <span>Curriculum Design</span><span class="dot">·</span>
+    <span>Train the Trainer</span><span class="dot">·</span>
+    <span>Interactive Tools</span><span class="dot">·</span>
+    <span>Learning Path Design</span><span class="dot">·</span>
+    <span>Content Strategy</span><span class="dot">·</span>
+    <span>Async Development</span><span class="dot">·</span>
+    <span>Small Business</span><span class="dot">·</span>
+    <span>Multi-State Systems</span><span class="dot">·</span>
+    <span>Scenario-Based Learning</span><span class="dot">·</span>
+    <span>Curriculum Design</span><span class="dot">·</span>
+    <span>Train the Trainer</span><span class="dot">·</span>
+    <span>Interactive Tools</span><span class="dot">·</span>
+    <span>Learning Path Design</span><span class="dot">·</span>
+    <span>Content Strategy</span><span class="dot">·</span>
+    <span>Async Development</span><span class="dot">·</span>
+    <span>Small Business</span><span class="dot">·</span>
+    <span>Multi-State Systems</span><span class="dot">·</span>
+    <span>Scenario-Based Learning</span><span class="dot">·</span>
+  </div>
+</div>
+
+<!-- WORK -->
+<section class="work">
+  <div class="work-header">
+    <h2>Selected work</h2>
+    <div class="work-header-line"></div>
+    <span class="work-count">03 Projects</span>
+  </div>
+
+  <!-- CS 01 -->
+  <div class="cs" id="cs-1">
+    <div class="cs-num"><span>01</span></div>
+    <div class="cs-body">
+      <div class="cs-top">
+        <div class="cs-client-block">
+          <p class="cs-client">Johns Hopkins University — Center for Technology in Education</p>
+          <h3 class="cs-headline">From slide decks to a six-state training system that runs without us in the room.</h3>
+        </div>
+      </div>
+      <div class="cs-accent accent-1"></div>
+      <div class="cs-blocks">
+        <div class="cs-block">
+          <p class="cs-block-label">The need</p>
+          <p>Train educators on a complex assessment system across multiple states. Every new cohort, every new hire required the team to show up. No way to scale, no way to keep pace.</p>
+        </div>
+        <div class="cs-block">
+          <p class="cs-block-label">What we built</p>
+          <p>A core training system with <strong>unique learning paths for six states</strong>, wrapped in a train the trainer model. Asynchronous options added as states asked for more flexibility. The system flexed without losing its integrity.</p>
+        </div>
+        <div class="cs-block">
+          <p class="cs-block-label">What changed</p>
+          <p>More educators reached. Trainers onboard new staff independently. Satisfaction improved with on-demand access. <strong>Team presence no longer required.</strong></p>
+        </div>
+      </div>
+      <div class="cs-tags">
+        <span class="cs-tag">Curriculum Development</span>
+        <span class="cs-tag">Train the Trainer</span>
+        <span class="cs-tag">Learning Path Design</span>
+        <span class="cs-tag">Async Modules</span>
+        <span class="cs-tag">Multi-State Adaptation</span>
+        <span class="cs-tag">K-12 / Higher Ed</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- CS 02 -->
+  <div class="cs" id="cs-2">
+    <div class="cs-num"><span>02</span></div>
+    <div class="cs-body">
+      <div class="cs-top">
+        <div class="cs-client-block">
+          <p class="cs-client">The CoLLab Field Hockey</p>
+          <h3 class="cs-headline">A content system that grows an audience, builds a tool library, and scopes a future course — all at once.</h3>
+        </div>
+        <span class="cs-badge badge-active">Active</span>
+      </div>
+      <div class="cs-accent accent-2"></div>
+      <div class="cs-blocks">
+        <div class="cs-block">
+          <p class="cs-block-label">The need</p>
+          <p>400 Substack subscribers, deep expertise, no system behind it. Needed content that built the audience consistently and a pathway toward a paid product when the time was right.</p>
+        </div>
+        <div class="cs-block">
+          <p class="cs-block-label">What we built</p>
+          <p>A 32-week content system across four coaching pillars. <strong>Every post serves two audiences at once</strong> — coaches reading the Substack and players receiving interactive drills before practice. A branded tool library grows with every post.</p>
+        </div>
+        <div class="cs-block">
+          <p class="cs-block-label">What we are building toward</p>
+          <p>A paid course built on evidence, not guesswork. The content system generates audience data across every post so when she is ready to launch, she knows exactly what her audience will pay for.</p>
+        </div>
+      </div>
+      <div class="cs-tags">
+        <span class="cs-tag">Content Strategy</span>
+        <span class="cs-tag">Interactive Tool Design</span>
+        <span class="cs-tag">Substack Development</span>
+        <span class="cs-tag">Library Architecture</span>
+        <span class="cs-tag">Sports Coaching</span>
+        <span class="cs-tag">Small Business</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- CS 03 -->
+  <div class="cs" id="cs-3">
+    <div class="cs-num"><span>03</span></div>
+    <div class="cs-body">
+      <div class="cs-top">
+        <div class="cs-client-block">
+          <p class="cs-client">Iris B Photography</p>
+          <h3 class="cs-headline">Turning photography expertise into interactive experiences that teach animal behavior before the shot.</h3>
+        </div>
+        <span class="cs-badge badge-dev">In Development</span>
+      </div>
+      <div class="cs-accent accent-3"></div>
+      <div class="cs-blocks">
+        <div class="cs-block">
+          <p class="cs-block-label">The need</p>
+          <p>Wildlife photography instruction goes beyond technique — it requires reading animal behavior in the field. That skill cannot be taught from a static post. The learning has to feel like being there.</p>
+        </div>
+        <div class="cs-block">
+          <p class="cs-block-label">What we are building</p>
+          <p>Mini learning experiences built around real field scenarios. Learners read what an animal is doing, make a decision, and receive feedback connecting behavior to the photographic moment. <strong>Short enough for a phone. Specific enough to matter.</strong></p>
+        </div>
+        <div class="cs-block">
+          <p class="cs-block-label">What we are building toward</p>
+          <p>A growing library of behavior-based experiences that can be bundled into a paid course, used as a lead generation tool, or offered as a premium workshop resource.</p>
+        </div>
+      </div>
+      <div class="cs-tags">
+        <span class="cs-tag">Learning Experience Design</span>
+        <span class="cs-tag">Interactive Tools</span>
+        <span class="cs-tag">Scenario-Based Learning</span>
+        <span class="cs-tag">Adult Learners</span>
+        <span class="cs-tag">Small Business</span>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<!-- CLOSING -->
+<section class="closing">
+  <div class="closing-inner">
+    <h2>From what<br>you know<br>to <em>what they<br>learn.</em></h2>
+    <div class="closing-right">
+      <p>If you have expertise worth teaching and an audience worth building, let's talk about what a learning system could look like for your business.</p>
+      <a href="mailto:klohr@foundationforwardacademics.com" class="closing-btn">Start the conversation</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>Foundation Forward Consulting &mdash; <a href="mailto:klohr@foundationforwardacademics.com">klohr@foundationforwardacademics.com</a></p>
+  <p>Learning experience design for small businesses and coaches.</p>
+</footer>
+
+<script>
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) e.target.classList.add('visible');
+    });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.cs').forEach(el => io.observe(el));
+</script>
+
+</body>
+</html>
