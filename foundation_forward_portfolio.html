@@ -599,6 +599,100 @@
     footer a { color: var(--mid); text-decoration: none; transition: color 0.15s; }
     footer a:hover { color: var(--black); }
 
+    /* ── BRANDED TOOL PREVIEWS ── */
+    .tool-previews-wrap {
+      margin-top: 2rem;
+      border-radius: 10px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+
+    .tp-context {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      padding: 1rem 1.25rem;
+    }
+
+    .tp-brand-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      margin-top: 0.35rem;
+    }
+
+    .tp-brand-name {
+      font-family: 'Epilogue', sans-serif;
+      font-size: 0.62rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--mid);
+      white-space: nowrap;
+      flex-shrink: 0;
+      padding-top: 0.1rem;
+    }
+
+    .tp-design-note {
+      font-size: 0.78rem;
+      color: var(--gray);
+      line-height: 1.6;
+      font-style: italic;
+    }
+
+    /* CoLLab — dark branded */
+    .tp-collab {
+      background: #0e0e0e;
+      border-color: #222222;
+    }
+
+    .tp-collab .tp-context {
+      border-bottom: 1px solid #222222;
+    }
+
+    .tp-collab .tp-brand-name { color: #888888; }
+    .tp-collab .tp-design-note { color: #666666; }
+
+    .tp-bar-collab {
+      background: #191919 !important;
+      border-bottom-color: #2a2a2a !important;
+    }
+
+    .tp-bar-collab span { color: #888888 !important; }
+    .tp-bar-collab a { color: #c8f135 !important; }
+
+    .tp-dark {
+      background: #111111;
+      border-color: #2a2a2a !important;
+    }
+
+    /* Iris B — warm earth branded */
+    .tp-iris {
+      background: #faf7f2;
+      border-color: #ddd5c5;
+    }
+
+    .tp-iris .tp-context {
+      border-bottom: 1px solid #ddd5c5;
+    }
+
+    .tp-iris .tp-brand-name { color: #9a8870; }
+    .tp-iris .tp-design-note { color: #8a7a68; }
+
+    .tp-bar-iris {
+      background: #f0ead8 !important;
+      border-bottom-color: #ddd5c5 !important;
+    }
+
+    .tp-bar-iris span { color: #8a7a68 !important; }
+    .tp-bar-iris a { color: #b8842a !important; }
+
+    .tp-warm {
+      background: #f0ead8;
+      border-color: #ddd5c5 !important;
+    }
+
     /* ── RESPONSIVE ── */
     @media (max-width: 768px) {
       nav { padding: 0.9rem 1.5rem; }
@@ -770,20 +864,27 @@
       <span class="cs-tag">Sports Coaching</span>
       <span class="cs-tag">Small Business</span>
     </div>
-    <div class="tool-previews">
-      <div class="tool-preview">
-        <div class="preview-bar">
-          <span>W.H.A.T. Press Decisions — Coach Tool</span>
-          <a href="https://klohr-bit.github.io/collab-tools/collab_what_coach_drill.html" target="_blank">Open full screen ↗</a>
-        </div>
-        <iframe src="https://klohr-bit.github.io/collab-tools/collab_what_coach_drill.html" title="W.H.A.T. Press Decisions drill" loading="lazy"></iframe>
+    <div class="tool-previews-wrap tp-collab">
+      <div class="tp-context">
+        <div class="tp-brand-dot" style="background:#c8f135;"></div>
+        <p class="tp-brand-name">The CoLLab Field Hockey</p>
+        <p class="tp-design-note">Two audiences, one system. The coach tool builds tactical decision-making. The player tool goes straight to their phone before practice.</p>
       </div>
-      <div class="tool-preview">
-        <div class="preview-bar">
-          <span>Space Recognition — Player Prep Tool</span>
-          <a href="https://klohr-bit.github.io/collab-tools/collab_space_recognition_drill.html" target="_blank">Open full screen ↗</a>
+      <div class="tool-previews">
+        <div class="tool-preview tp-dark">
+          <div class="preview-bar tp-bar-collab">
+            <span>W.H.A.T. Press Decisions — Coach Tool</span>
+            <a href="https://klohr-bit.github.io/collab-tools/collab_what_coach_drill.html" target="_blank">Open full screen ↗</a>
+          </div>
+          <iframe src="https://klohr-bit.github.io/collab-tools/collab_what_coach_drill.html" title="W.H.A.T. Press Decisions drill" loading="lazy"></iframe>
         </div>
-        <iframe src="https://klohr-bit.github.io/collab-tools/collab_space_recognition_drill.html" title="Space Recognition drill" loading="lazy"></iframe>
+        <div class="tool-preview tp-dark">
+          <div class="preview-bar tp-bar-collab">
+            <span>Space Recognition — Player Prep Tool</span>
+            <a href="https://klohr-bit.github.io/collab-tools/collab_space_recognition_drill.html" target="_blank">Open full screen ↗</a>
+          </div>
+          <iframe src="https://klohr-bit.github.io/collab-tools/collab_space_recognition_drill.html" title="Space Recognition drill" loading="lazy"></iframe>
+        </div>
       </div>
     </div>
   </div>
@@ -796,7 +897,7 @@
         <p class="cs-client">Iris B Photography</p>
         <h3 class="cs-headline">Turning photography expertise into interactive experiences that teach animal behavior before the shot.</h3>
       </div>
-      <span class="cs-badge badge-dev">In Development</span>
+      <span class="cs-badge badge-active">First Tool Live</span>
     </div>
     <div class="cs-bar bar-3"></div>
     <div class="cs-blocks">
@@ -819,6 +920,28 @@
       <span class="cs-tag">Scenario-Based Learning</span>
       <span class="cs-tag">Adult Learners</span>
       <span class="cs-tag">Small Business</span>
+    </div>
+    <div class="tool-previews-wrap tp-iris">
+      <div class="tp-context">
+        <div class="tp-brand-dot" style="background:#b8842a;"></div>
+        <p class="tp-brand-name">Iris B Photography</p>
+        <p class="tp-design-note">A warm, nature-forward experience built for independent adult learners. Different audience, different pace, different visual world than anything in the coaching space.</p>
+      </div>
+      <div class="tool-previews" style="grid-template-columns:1fr;">
+        <div class="tool-preview tp-warm">
+          <div class="preview-bar tp-bar-iris">
+            <span>Reading Animal Behavior — Wildlife Photography</span>
+            <a href="https://klohr-bit.github.io/foundation-forward-lessons/iris_b_wildlife_behavior%20(1).html" target="_blank">Open full screen ↗</a>
+          </div>
+          <iframe
+            src="https://klohr-bit.github.io/foundation-forward-lessons/iris_b_wildlife_behavior%20(1).html"
+            title="Iris B Photography — Reading Animal Behavior"
+            loading="lazy"
+            style="height:480px;">
+          </iframe>
+        </div>
+      </div>
+    </div>
     </div>
   </div>
 
