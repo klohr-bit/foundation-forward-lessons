@@ -1,0 +1,945 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Reading Animal Behavior — Iris B Photography</title>
+  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;1,8..60,300;1,8..60,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --soil:    #1e1a0e;
+      --bark:    #3d2e1a;
+      --moss:    #3d5c2e;
+      --sage:    #6b8c5a;
+      --sand:    #f0e8d8;
+      --linen:   #faf7f2;
+      --stone:   #b8b0a0;
+      --mist:    #e4ddd0;
+      --white:   #ffffff;
+      --gold:    #b8842a;
+      --amber:   #d4a84a;
+      --red:     #7a3020;
+      --text:    #1e1a0e;
+      --gray:    #6a6258;
+      --border:  #d8d0c0;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--linen);
+      color: var(--text);
+      font-family: 'Outfit', sans-serif;
+      font-size: 15px;
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh;
+    }
+
+    /* ── HEADER ── */
+    header {
+      background: var(--soil);
+      padding: 0 2rem;
+      height: 54px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .brand {
+      font-family: 'Source Serif 4', Georgia, serif;
+      font-size: 0.95rem;
+      font-weight: 400;
+      font-style: italic;
+      color: var(--sand);
+      text-decoration: none;
+      letter-spacing: 0.02em;
+    }
+
+    .brand span {
+      font-style: normal;
+      font-size: 0.6rem;
+      font-family: 'Outfit', sans-serif;
+      font-weight: 500;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--stone);
+      display: block;
+      margin-top: 1px;
+    }
+
+    .tool-tag {
+      font-size: 0.6rem;
+      font-weight: 500;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--stone);
+    }
+
+    /* ── INTRO ── */
+    .intro {
+      max-width: 640px;
+      margin: 0 auto;
+      padding: 3.5rem 2rem 0;
+      text-align: center;
+    }
+
+    .intro-eyebrow {
+      font-size: 0.62rem;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.75rem;
+    }
+
+    .intro h1 {
+      font-family: 'Source Serif 4', Georgia, serif;
+      font-size: clamp(1.8rem, 4vw, 2.4rem);
+      font-weight: 600;
+      color: var(--soil);
+      line-height: 1.2;
+      margin-bottom: 0.75rem;
+    }
+
+    .intro h1 em { font-style: italic; color: var(--moss); }
+
+    .intro p {
+      font-size: 0.9rem;
+      color: var(--gray);
+      line-height: 1.8;
+      max-width: 480px;
+      margin: 0 auto 2.5rem;
+    }
+
+    /* ── PROGRESS ── */
+    .progress-bar {
+      max-width: 640px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .step-dot {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      border: 1.5px solid var(--border);
+      background: var(--linen);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.6rem;
+      font-weight: 600;
+      color: var(--stone);
+      flex-shrink: 0;
+      transition: all 0.3s;
+    }
+
+    .step-dot.active {
+      background: var(--moss);
+      border-color: var(--moss);
+      color: var(--white);
+    }
+
+    .step-dot.done {
+      background: var(--soil);
+      border-color: var(--soil);
+      color: var(--sand);
+    }
+
+    .step-line {
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    .step-label {
+      font-size: 0.6rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--stone);
+    }
+
+    /* ── MAIN ── */
+    main {
+      max-width: 640px;
+      margin: 0 auto;
+      padding: 0 2rem 5rem;
+    }
+
+    /* ── PHASE: LEARN ── */
+    .phase { display: none; }
+    .phase.active { display: block; animation: fadeUp 0.4s ease; }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(12px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── SIGNAL CARDS ── */
+    .phase-title {
+      font-family: 'Source Serif 4', Georgia, serif;
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: var(--soil);
+      margin-bottom: 0.4rem;
+    }
+
+    .phase-sub {
+      font-size: 0.85rem;
+      color: var(--gray);
+      margin-bottom: 1.75rem;
+      line-height: 1.6;
+    }
+
+    .signal-cards {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .signal-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.25rem 1.4rem;
+      display: flex;
+      gap: 1.25rem;
+      align-items: flex-start;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+
+    .signal-card:hover {
+      border-color: var(--moss);
+      transform: translateY(-2px);
+    }
+
+    .signal-icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 8px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.6rem;
+    }
+
+    .icon-safe    { background: rgba(74,92,58,0.08); }
+    .icon-watch   { background: rgba(200,151,58,0.1); }
+    .icon-danger  { background: rgba(140,58,42,0.08); }
+
+    .signal-body {}
+
+    .signal-status {
+      font-size: 0.58rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      margin-bottom: 0.3rem;
+    }
+
+    .status-safe   { color: var(--moss); }
+    .status-watch  { color: var(--gold); }
+    .status-danger { color: var(--red); }
+
+    .signal-name {
+      font-family: 'Source Serif 4', Georgia, serif;
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--soil);
+      margin-bottom: 0.3rem;
+    }
+
+    .signal-desc {
+      font-size: 0.82rem;
+      color: var(--gray);
+      line-height: 1.65;
+    }
+
+    .signal-tip {
+      font-size: 0.78rem;
+      color: var(--moss);
+      font-weight: 500;
+      margin-top: 0.4rem;
+      font-style: italic;
+    }
+
+    /* ── PRACTICE SCENARIOS ── */
+    .scenario-wrap {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      margin-bottom: 1.25rem;
+    }
+
+    .scene-illustration {
+      width: 100%;
+      height: 200px;
+      display: block;
+      background: var(--sand);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .scene-caption {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 0.6rem 1rem;
+      background: linear-gradient(to top, rgba(30,26,14,0.75) 0%, transparent 100%);
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.68rem;
+      font-weight: 400;
+      color: rgba(255,255,255,0.85);
+      letter-spacing: 0.04em;
+    }
+
+    .scene-illustration svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    .scenario-body {
+      padding: 1.4rem;
+    }
+
+    .scenario-num {
+      font-size: 0.6rem;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.4rem;
+    }
+
+    .scenario-q {
+      font-family: 'Source Serif 4', Georgia, serif;
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--soil);
+      line-height: 1.35;
+      margin-bottom: 0.6rem;
+    }
+
+    .scenario-context {
+      font-size: 0.82rem;
+      color: var(--gray);
+      line-height: 1.65;
+      margin-bottom: 1.25rem;
+    }
+
+    /* ── OPTIONS ── */
+    .options {
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+
+    .opt-btn {
+      background: var(--linen);
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      padding: 0.85rem 1.1rem;
+      text-align: left;
+      cursor: pointer;
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.875rem;
+      color: var(--text);
+      line-height: 1.5;
+      transition: border-color 0.15s, background 0.15s;
+      display: flex;
+      gap: 0.75rem;
+      align-items: flex-start;
+    }
+
+    .opt-btn:hover:not(:disabled) {
+      border-color: var(--moss);
+      background: var(--white);
+    }
+
+    .opt-btn:disabled { cursor: default; }
+
+    .opt-letter {
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: var(--stone);
+      flex-shrink: 0;
+      margin-top: 2px;
+      min-width: 14px;
+      transition: color 0.15s;
+    }
+
+    .opt-btn.correct {
+      border-color: var(--moss);
+      background: rgba(74,92,58,0.06);
+    }
+
+    .opt-btn.correct .opt-letter { color: var(--moss); }
+
+    .opt-btn.wrong {
+      border-color: var(--red);
+      background: rgba(140,58,42,0.05);
+      color: var(--stone);
+    }
+
+    .opt-btn.wrong .opt-letter { color: var(--red); }
+    .opt-btn.dimmed { opacity: 0.3; }
+
+    /* ── FEEDBACK ── */
+    .feedback {
+      display: none;
+      border-radius: 8px;
+      padding: 1rem 1.2rem;
+      margin-top: 0.75rem;
+      animation: fadeUp 0.25s ease;
+    }
+
+    .feedback.show { display: block; }
+
+    .feedback.correct-fb {
+      background: rgba(74,92,58,0.07);
+      border: 1px solid rgba(74,92,58,0.2);
+    }
+
+    .feedback.wrong-fb {
+      background: rgba(140,58,42,0.06);
+      border: 1px solid rgba(140,58,42,0.18);
+    }
+
+    .fb-result {
+      font-size: 0.62rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      margin-bottom: 0.4rem;
+      display: block;
+    }
+
+    .correct-fb .fb-result { color: var(--moss); }
+    .wrong-fb   .fb-result { color: var(--red); }
+
+    .fb-text {
+      font-size: 0.85rem;
+      color: var(--gray);
+      line-height: 1.7;
+    }
+
+    .fb-text strong { color: var(--soil); font-weight: 600; }
+
+    /* ── BUTTONS ── */
+    .primary-btn {
+      display: inline-block;
+      background: var(--soil);
+      color: var(--sand);
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.85rem 2rem;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.2s;
+      width: 100%;
+      text-align: center;
+      margin-top: 1rem;
+    }
+
+    .primary-btn:hover { background: var(--bark); transform: translateY(-1px); }
+
+    .next-btn {
+      display: none;
+      width: 100%;
+      background: var(--moss);
+      color: var(--white);
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.85rem;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-top: 0.75rem;
+      transition: background 0.2s;
+    }
+
+    .next-btn.show { display: block; }
+    .next-btn:hover { background: var(--bark); }
+
+    /* ── RESULT SCREEN ── */
+    .result-screen {
+      display: none;
+      text-align: center;
+      padding: 2rem 0;
+      animation: fadeUp 0.4s ease;
+    }
+
+    .result-screen.show { display: block; }
+
+    .result-icon { font-size: 3rem; margin-bottom: 1rem; }
+
+    .result-title {
+      font-family: 'Source Serif 4', Georgia, serif;
+      font-size: 2rem;
+      font-weight: 600;
+      color: var(--soil);
+      margin-bottom: 0.4rem;
+    }
+
+    .result-score {
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--stone);
+      margin-bottom: 1.5rem;
+    }
+
+    .result-msg {
+      font-size: 0.9rem;
+      color: var(--gray);
+      line-height: 1.8;
+      max-width: 420px;
+      margin: 0 auto 1.5rem;
+    }
+
+    .result-msg strong { color: var(--soil); font-weight: 600; }
+
+    .result-takeaway {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--gold);
+      border-radius: 6px;
+      padding: 1rem 1.25rem;
+      text-align: left;
+      margin-bottom: 2rem;
+      font-size: 0.85rem;
+      color: var(--gray);
+      line-height: 1.7;
+    }
+
+    .result-takeaway strong { color: var(--soil); }
+
+    .restart-btn {
+      background: transparent;
+      border: 1.5px solid var(--border);
+      color: var(--gray);
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.75rem 1.75rem;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: border-color 0.15s, color 0.15s;
+    }
+
+    .restart-btn:hover { border-color: var(--moss); color: var(--moss); }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 1.1rem 2rem;
+      text-align: center;
+    }
+
+    footer p {
+      font-size: 0.68rem;
+      color: var(--stone);
+    }
+
+    footer a { color: var(--gray); text-decoration: none; }
+    footer a:hover { color: var(--soil); }
+
+    @media (max-width: 480px) {
+      .intro { padding: 2.5rem 1.25rem 0; }
+      main { padding: 0 1.25rem 4rem; }
+      header { padding: 0 1.25rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <a href="#" class="brand">
+    Iris B Photography
+    <span>Field Learning Series</span>
+  </a>
+  <span class="tool-tag">Wildlife Behavior</span>
+</header>
+
+<!-- INTRO -->
+<div class="intro">
+  <p class="intro-eyebrow">Before You Enter the Field</p>
+  <h1>Read the animal<br>before you <em>raise the camera.</em></h1>
+  <p>The best wildlife photographs happen when the animal is calm and unaware. Learning to read body language before you approach is what separates a great shot from a startled animal — and an empty frame.</p>
+</div>
+
+<!-- PROGRESS -->
+<div class="progress-bar">
+  <div class="step-dot active" id="dot-learn">1</div>
+  <div class="step-line"></div>
+  <span class="step-label">Learn the signals</span>
+  <div class="step-line"></div>
+  <div class="step-dot" id="dot-practice">2</div>
+  <div class="step-line"></div>
+  <span class="step-label">Practice reading</span>
+</div>
+
+<!-- MAIN -->
+<main>
+
+  <!-- ── PHASE 1: LEARN ── -->
+  <div class="phase active" id="phase-learn">
+
+    <p class="phase-title">Three signals every wildlife photographer reads.</p>
+    <p class="phase-sub">Before you take a single step toward an animal, you are already reading it. These three body language signals tell you what the animal is feeling — and what your next move should be.</p>
+
+    <div class="signal-cards">
+
+      <div class="signal-card">
+        <div class="signal-icon icon-safe">🦌</div>
+        <div class="signal-body">
+          <p class="signal-status status-safe">Safe to approach slowly</p>
+          <p class="signal-name">Relaxed and grazing</p>
+          <p class="signal-desc">Head down, ears relaxed and moving independently, tail hanging loose. The animal is focused on feeding and has not registered your presence.</p>
+          <p class="signal-tip">Move slowly, stay low, use available cover. This is your window.</p>
+        </div>
+      </div>
+
+      <div class="signal-card">
+        <div class="signal-icon icon-watch">👁️</div>
+        <div class="signal-body">
+          <p class="signal-status status-watch">Stop. Wait. Do not advance.</p>
+          <p class="signal-name">Alert and watching</p>
+          <p class="signal-desc">Head up, ears locked forward, eyes fixed on you. The animal knows you are there. It is deciding whether you are a threat. Any movement now will tip the decision.</p>
+          <p class="signal-tip">Freeze completely. Let it return to grazing before you move again.</p>
+        </div>
+      </div>
+
+      <div class="signal-card">
+        <div class="signal-icon icon-danger">⚠️</div>
+        <div class="signal-body">
+          <p class="signal-status status-danger">Back off. Shot is gone.</p>
+          <p class="signal-name">Flagging and stomping</p>
+          <p class="signal-desc">Tail raised high (the white "flag"), front foot stomping the ground, body turned sideways. The animal is alarmed and signaling to others. Flight is seconds away.</p>
+          <p class="signal-tip">Back away slowly. Chasing a fleeing animal damages the habitat and ends your session.</p>
+        </div>
+      </div>
+
+    </div>
+
+    <button class="primary-btn" onclick="goToPractice()">I'm ready to practice →</button>
+
+  </div>
+
+  <!-- ── PHASE 2: PRACTICE ── -->
+  <div class="phase" id="phase-practice">
+
+    <p class="phase-title">Three field situations. What do you do?</p>
+    <p class="phase-sub">You are in the field with your camera. Read what the animal is doing and decide your next move.</p>
+
+    <!-- SCENARIO 1 -->
+    <div id="scenario-0">
+      <div class="scenario-wrap">
+        <div class="scene-illustration">
+          <img
+            src="https://commons.wikimedia.org/wiki/Special:FilePath/White-tailed_deer_(24689009698).jpg"
+            alt="White-tailed doe grazing in meadow, head down, relaxed posture"
+            style="width:100%;height:200px;object-fit:cover;object-position:center 40%;"
+          />
+          <div class="scene-caption">Early morning meadow — you are 60 yards away</div>
+        </div>
+        <div class="scenario-body">
+          <p class="scenario-num">Situation 01 of 03</p>
+          <p class="scenario-q">A doe is feeding 60 yards ahead. Head down, ears loose, tail relaxed. She has not looked up in several minutes.</p>
+          <p class="scenario-context">The light is perfect. You are downwind. There is a line of shrubs between you and her that could get you to 30 yards.</p>
+          <div class="options" id="opts-0">
+            <button class="opt-btn" onclick="answer(0,0,true)">
+              <span class="opt-letter">A</span>
+              <span>Move slowly toward the shrub line, using it as cover. Pause every few steps.</span>
+            </button>
+            <button class="opt-btn" onclick="answer(0,1,false)">
+              <span class="opt-letter">B</span>
+              <span>Move quickly to close the distance before she looks up.</span>
+            </button>
+            <button class="opt-btn" onclick="answer(0,2,false)">
+              <span class="opt-letter">C</span>
+              <span>Stay where you are. 60 yards is close enough — do not risk it.</span>
+            </button>
+          </div>
+          <div class="feedback" id="fb-0"></div>
+          <button class="next-btn" id="next-0" onclick="nextScenario(1)">Next situation →</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- SCENARIO 2 -->
+    <div id="scenario-1" style="display:none;">
+      <div class="scenario-wrap">
+        <div class="scene-illustration">
+          <img
+            src="https://commons.wikimedia.org/wiki/Special:FilePath/White-tailed_deer_(26785163699).jpg"
+            alt="White-tailed deer standing alert, head up, ears forward, staring"
+            style="width:100%;height:200px;object-fit:cover;object-position:center 30%;"
+          />
+          <div class="scene-caption">Edge of a forest clearing — she is staring directly at you</div>
+        </div>
+        </div>
+        <div class="scenario-body">
+          <p class="scenario-num">Situation 02 of 03</p>
+          <p class="scenario-q">You step around a tree and a doe locks eyes with you. Head up, ears pinned forward, body completely still. She is staring directly at you.</p>
+          <p class="scenario-context">You are 35 yards away. Your camera is raised. The shot would be incredible — but she has not moved yet.</p>
+          <div class="options" id="opts-1">
+            <button class="opt-btn" onclick="answer(1,0,false)">
+              <span class="opt-letter">A</span>
+              <span>Take the shot quickly before she runs — you may not get another chance.</span>
+            </button>
+            <button class="opt-btn" onclick="answer(1,1,true)">
+              <span class="opt-letter">B</span>
+              <span>Freeze completely. Do not move, do not click the shutter. Wait for her to relax.</span>
+            </button>
+            <button class="opt-btn" onclick="answer(1,2,false)">
+              <span class="opt-letter">C</span>
+              <span>Take one slow step forward to get a better angle before she decides.</span>
+            </button>
+          </div>
+          <div class="feedback" id="fb-1"></div>
+          <button class="next-btn" id="next-1" onclick="nextScenario(2)">Next situation →</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- SCENARIO 3 -->
+    <div id="scenario-2" style="display:none;">
+      <div class="scenario-wrap">
+        <div class="scene-illustration">
+          <img
+            src="https://commons.wikimedia.org/wiki/Special:FilePath/White-tailed_Deer_Crossing_a_Road_Kensington_Metropark_Michigan.JPG"
+            alt="White-tailed deer alert and moving away from camera"
+            style="width:100%;height:200px;object-fit:cover;object-position:center 35%;"
+          />
+          <div class="scene-caption">Woodland trail — white tail raised, front foot has stomped twice</div>
+        </div>
+            <!-- Stomp dust puffs -->
+            <ellipse cx="306" cy="162" rx="14" ry="5" fill="#b8a878" opacity="0.35"/>
+            <ellipse cx="308" cy="160" rx="8" ry="3" fill="#c8b888" opacity="0.25"/>
+            <ellipse cx="350" cy="165" rx="10" ry="3.5" fill="#b8a878" opacity="0.3"/>
+            <!-- Caption -->
+            <text x="320" y="192" text-anchor="middle" font-family="Outfit,sans-serif" font-size="11" fill="#5a4a38" opacity="0.65">Woodland trail — white tail raised, front foot has stomped twice</text>
+          </svg>
+        </div>
+        <div class="scenario-body">
+          <p class="scenario-num">Situation 03 of 03</p>
+          <p class="scenario-q">A buck has his tail raised high — you can see the white flag clearly. He has stomped his front foot twice and is turning his body sideways.</p>
+          <p class="scenario-context">You never got a shot. He spotted you before you saw him. You are 25 yards away on a narrow trail.</p>
+          <div class="options" id="opts-2">
+            <button class="opt-btn" onclick="answer(2,0,false)">
+              <span class="opt-letter">A</span>
+              <span>Move quickly to get in front of him for a shot as he runs — the action could be dramatic.</span>
+            </button>
+            <button class="opt-btn" onclick="answer(2,1,false)">
+              <span class="opt-letter">B</span>
+              <span>Stand still and wait — he may calm down if you do not move.</span>
+            </button>
+            <button class="opt-btn" onclick="answer(2,2,true)">
+              <span class="opt-letter">C</span>
+              <span>Back away slowly and quietly. The shot is gone. Protect the encounter for next time.</span>
+            </button>
+          </div>
+          <div class="feedback" id="fb-2"></div>
+          <button class="next-btn" id="next-2" onclick="showResult()">See your results →</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- RESULT -->
+    <div class="result-screen" id="result-screen">
+      <div class="result-icon" id="result-icon">📷</div>
+      <h2 class="result-title" id="result-title"></h2>
+      <p class="result-score" id="result-score"></p>
+      <p class="result-msg" id="result-msg"></p>
+      <div class="result-takeaway" id="result-takeaway"></div>
+      <button class="restart-btn" onclick="restart()">Run it again</button>
+    </div>
+
+  </div>
+
+</main>
+
+<!-- FOOTER -->
+<footer>
+  <p>Iris B Photography &mdash; Field Learning Series &mdash; Built by <a href="https://foundationforward.consulting">Foundation Forward Consulting</a></p>
+</footer>
+
+<script>
+  const feedbackData = {
+    0: {
+      correct: {
+        r: "Right read.",
+        t: "She is relaxed and feeding — this is your window. <strong>Slow, deliberate movement with natural cover between you is exactly how you close the distance without triggering an alert response.</strong> Pausing every few steps lets her register your presence gradually rather than as a sudden change."
+      },
+      wrong: [
+        { r: "Not quite.", t: "Moving quickly is the fastest way to end the session. Animals react to sudden movement, not just proximity. <strong>The relaxed doe is an invitation — the approach technique is what determines whether you get the shot.</strong> Slow, covered, with pauses." },
+        { r: "Not yet.", t: "60 yards is workable but not ideal for most wildlife shots. More importantly, she is relaxed and the conditions are right. <strong>The relaxed body language tells you the approach is safe if done correctly.</strong> This is the moment to move." }
+      ]
+    },
+    1: {
+      correct: {
+        r: "Right read.",
+        t: "An alert deer in a stare-down is not a lost shot — it is a negotiation. <strong>Freezing completely signals that you are not a threat. Most deer will eventually lower their head and resume feeding if nothing confirms their suspicion.</strong> That is when you shoot."
+      },
+      wrong: [
+        { r: "Not yet.", t: "The shutter click or any movement right now will confirm that you are a threat. She will bolt immediately. <strong>The alert stare is a pause, not a decision. Freezing keeps the decision open.</strong> Many incredible portraits come from waiting through exactly this moment." },
+        { r: "Not quite.", t: "Any forward movement while she is in full alert will trigger immediate flight. <strong>The only move that keeps the session alive is no move at all.</strong> Let her make the next decision." }
+      ]
+    },
+    2: {
+      correct: {
+        r: "Right read.",
+        t: "The white flag and foot stomp are unambiguous. This animal is alarmed and about to run — no action you take now will change that. <strong>Backing away quietly protects the animal from unnecessary stress, protects the habitat, and most importantly preserves the location for your next visit.</strong> The photographers who get the best shots are the ones who know when to leave."
+      },
+      wrong: [
+        { r: "Not quite.", t: "Cutting off a fleeing animal is dangerous for both of you and will scatter every other animal in the area. <strong>A frightened deer in motion is not a photographic opportunity — it is a sign that the session is over.</strong> Back away." },
+        { r: "Not yet.", t: "The foot stomp and raised tail are the deer's final warning before flight. <strong>Standing still at this stage does not calm the animal — it has already made its decision.</strong> Back away slowly and quietly. The location is more valuable to you than this moment." }
+      ]
+    }
+  };
+
+  let scores = [null, null, null];
+  let wrongCounts = [0, 0, 0];
+
+  function goToPractice() {
+    document.getElementById('phase-learn').classList.remove('active');
+    document.getElementById('phase-practice').classList.add('active');
+    document.getElementById('dot-learn').classList.remove('active');
+    document.getElementById('dot-learn').classList.add('done');
+    document.getElementById('dot-practice').classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function answer(scenarioIdx, optIdx, isCorrect) {
+    const opts = document.querySelectorAll(`#opts-${scenarioIdx} .opt-btn`);
+    opts.forEach(b => b.disabled = true);
+
+    const chosen = opts[optIdx];
+    const fb     = document.getElementById(`fb-${scenarioIdx}`);
+    const next   = document.getElementById(`next-${scenarioIdx}`);
+
+    const data = isCorrect
+      ? feedbackData[scenarioIdx].correct
+      : feedbackData[scenarioIdx].wrong[wrongCounts[scenarioIdx]];
+
+    fb.innerHTML = `<span class="fb-result">${data.r}</span><p class="fb-text">${data.t}</p>`;
+    fb.className = `feedback show ${isCorrect ? 'correct-fb' : 'wrong-fb'}`;
+
+    if (isCorrect) {
+      chosen.classList.add('correct');
+      opts.forEach((b, i) => { if (i !== optIdx) b.classList.add('dimmed'); });
+      scores[scenarioIdx] = true;
+    } else {
+      chosen.classList.add('wrong');
+      wrongCounts[scenarioIdx]++;
+      scores[scenarioIdx] = false;
+      opts.forEach(b => {
+        if (b.getAttribute('onclick').includes('true')) {
+          b.classList.add('correct');
+          b.classList.remove('dimmed');
+        } else if (b !== chosen) {
+          b.classList.add('dimmed');
+        }
+      });
+    }
+
+    next.classList.add('show');
+  }
+
+  function nextScenario(idx) {
+    document.getElementById(`scenario-${idx - 1}`).style.display = 'none';
+    document.getElementById(`scenario-${idx}`).style.display = 'block';
+    document.getElementById(`scenario-${idx}`).style.animation = 'fadeUp 0.4s ease';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function showResult() {
+    document.getElementById('scenario-2').style.display = 'none';
+    const correct = scores.filter(Boolean).length;
+    const screen  = document.getElementById('result-screen');
+    screen.classList.add('show');
+
+    const icon  = document.getElementById('result-icon');
+    const title = document.getElementById('result-title');
+    const score = document.getElementById('result-score');
+    const msg   = document.getElementById('result-msg');
+    const take  = document.getElementById('result-takeaway');
+
+    score.textContent = `${correct} of 3 correct`;
+
+    if (correct === 3) {
+      icon.textContent  = '📷';
+      title.textContent = 'Sharp Eye';
+      msg.innerHTML     = 'You read all three situations correctly. <strong>That instinct for when to move, when to freeze, and when to leave is what separates one-shot photographers from the ones who come home with a full card.</strong>';
+      take.innerHTML    = '<strong>The pattern across all three:</strong> Relaxed body language is your invitation. Alert body language is a pause, not an ending. Alarm signals mean the session is over — and how you leave determines whether you get another one.';
+    } else if (correct === 2) {
+      icon.textContent  = '🌿';
+      title.textContent = 'Getting There';
+      msg.innerHTML     = 'You read most of the situations correctly. <strong>Go back to the one you missed and look at what the body language was telling you.</strong> The signals are always there — it just takes repetition to read them quickly.';
+      take.innerHTML    = '<strong>Key takeaway:</strong> The three signals — relaxed, alert, alarmed — each require a completely different response. Knowing which one you are looking at is the whole game.';
+    } else {
+      icon.textContent  = '🦌';
+      title.textContent = 'Keep Watching';
+      msg.innerHTML     = 'Body language reading takes time to build. <strong>Run this again and focus on what the animal\'s ears, tail, and posture are doing in each scene before you choose.</strong> The signals are clear once you know what to look for.';
+      take.innerHTML    = '<strong>Start here:</strong> Ears tell you awareness. Tail tells you alarm level. Posture tells you intent. Read those three things before you take a single step.';
+    }
+
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function restart() {
+    scores = [null, null, null];
+    wrongCounts = [0, 0, 0];
+
+    for (let i = 0; i < 3; i++) {
+      const opts = document.querySelectorAll(`#opts-${i} .opt-btn`);
+      opts.forEach(b => {
+        b.disabled = false;
+        b.className = 'opt-btn';
+      });
+      const fb = document.getElementById(`fb-${i}`);
+      fb.className = 'feedback';
+      fb.innerHTML = '';
+      document.getElementById(`next-${i}`).classList.remove('show');
+    }
+
+    document.getElementById('result-screen').classList.remove('show');
+    document.getElementById('scenario-1').style.display = 'none';
+    document.getElementById('scenario-2').style.display = 'none';
+    document.getElementById('scenario-0').style.display = 'block';
+
+    document.getElementById('phase-practice').classList.remove('active');
+    document.getElementById('phase-learn').classList.add('active');
+    document.getElementById('dot-learn').classList.remove('done');
+    document.getElementById('dot-learn').classList.add('active');
+    document.getElementById('dot-practice').classList.remove('active');
+
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+</script>
+
+</body>
+</html>
