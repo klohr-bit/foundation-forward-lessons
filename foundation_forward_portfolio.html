@@ -8,16 +8,18 @@
   <style>
     :root {
       --black:    #111111;
-      --dark:     #1c1f1a;
+      --dark:     #1a1530;
       --white:    #ffffff;
       --off:      #f7f6f3;
       --warm:     #f0ede6;
       --gray:     #6e6e6e;
       --mid:      #999999;
       --light:    #d4d1cb;
-      --gold:     #c9a84c;
-      --gold-dim: rgba(201,168,76,0.12);
-      --green:    #2d6a4f;
+      --purple:       #2E1F5E;
+      --purple-mid:   #6B4EE6;
+      --purple-soft:  #C5B4F5;
+      --purple-dim:   rgba(107,78,230,0.12);
+      --purple-wash:  #F4F0FF;
       --red:      #b84040;
       --border:   #e6e3dc;
     }
@@ -49,17 +51,11 @@
       z-index: 100;
     }
 
-    .nav-name {
-      font-family: 'Epilogue', sans-serif;
-      font-size: 0.8rem;
-      font-weight: 600;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--black);
-      text-decoration: none;
+    .nav-logo {
+      height: 42px;
+      width: auto;
+      display: block;
     }
-
-    .nav-name span { color: var(--gold); }
 
     .nav-right {
       display: flex;
@@ -83,11 +79,11 @@
       color: var(--black);
       text-decoration: none;
       padding-bottom: 2px;
-      border-bottom: 1.5px solid var(--gold);
+      border-bottom: 1.5px solid var(--purple);
       transition: color 0.2s;
     }
 
-    .nav-cta:hover { color: var(--gold); }
+    .nav-cta:hover { color: var(--purple); }
 
     /* ── HERO ── */
     .hero {
@@ -101,7 +97,7 @@
       font-weight: 500;
       letter-spacing: 0.2em;
       text-transform: uppercase;
-      color: var(--gold);
+      color: var(--purple);
       margin-bottom: 1.75rem;
       display: flex;
       align-items: center;
@@ -112,7 +108,7 @@
       content: '';
       width: 28px;
       height: 1px;
-      background: var(--gold);
+      background: var(--purple);
       display: block;
     }
 
@@ -129,7 +125,7 @@
 
     .hero-h1 em {
       font-style: italic;
-      color: var(--green);
+      color: var(--purple-mid);
     }
 
     .hero-h1 .word {
@@ -163,7 +159,7 @@
 
     .hero-sub em {
       font-style: italic;
-      color: var(--gold);
+      color: var(--purple);
     }
 
     .hero-body {
@@ -204,7 +200,7 @@
       flex-shrink: 0;
     }
 
-    .marquee-track .dot { color: var(--gold); letter-spacing: 0; }
+    .marquee-track .dot { color: var(--purple-mid); letter-spacing: 0; }
 
     @keyframes marquee {
       from { transform: translateX(0); }
@@ -248,7 +244,7 @@
       left: 0;
       right: 0;
       padding: 2rem 1.75rem 1.75rem;
-      background: linear-gradient(to top, rgba(28,31,26,0.95) 0%, rgba(28,31,26,0.4) 60%, transparent 100%);
+      background: linear-gradient(to top, rgba(26,21,48,0.95) 0%, rgba(26,21,48,0.4) 60%, transparent 100%);
     }
 
     .about-name {
@@ -263,7 +259,7 @@
 
     .about-name em {
       font-style: italic;
-      color: var(--gold);
+      color: var(--purple-soft);
     }
 
     .about-role {
@@ -284,21 +280,21 @@
     .about-divider {
       width: 28px;
       height: 1px;
-      background: var(--gold);
-      opacity: 0.4;
+      background: var(--purple-soft);
+      opacity: 0.7;
       margin-bottom: 1.75rem;
     }
 
     .about-right p {
       font-size: 0.92rem;
-      color: rgba(255,255,255,0.55);
+      color: rgba(255,255,255,0.72);
       line-height: 1.9;
       margin-bottom: 1.25rem;
     }
 
     .about-right p:last-child { margin-bottom: 0; }
     .about-right strong { color: rgba(255,255,255,0.9); font-weight: 600; }
-    .about-right em { font-style: italic; color: var(--gold); }
+    .about-right em { font-style: italic; color: var(--purple-soft); }
 
     /* ── WORK ── */
     .work {
@@ -366,7 +362,7 @@
       user-select: none;
     }
 
-    .cs:hover .cs-num { color: var(--gold-dim); }
+    .cs:hover .cs-num { color: var(--purple-dim); }
 
     .cs-top {
       display: flex;
@@ -404,7 +400,7 @@
       left: 0;
       width: 0;
       height: 1.5px;
-      background: var(--gold);
+      background: var(--purple);
       transition: width 0.4s ease;
       display: block;
     }
@@ -421,8 +417,8 @@
       flex-shrink: 0;
     }
 
-    .badge-active { background: rgba(45,106,79,0.08); color: var(--green); }
-    .badge-dev    { background: var(--gold-dim); color: #8a6f20; }
+    .badge-active { background: var(--purple-dim); color: var(--purple); }
+    .badge-dev    { background: var(--purple-dim); color: var(--purple); }
 
     .cs-bar {
       width: 24px;
@@ -431,8 +427,8 @@
       margin: 1.1rem 0;
     }
 
-    .bar-1 { background: var(--gold); }
-    .bar-2 { background: var(--green); }
+    .bar-1 { background: var(--purple); }
+    .bar-2 { background: var(--purple-mid); }
     .bar-3 { background: var(--red); }
 
     .cs-blocks {
@@ -513,7 +509,7 @@
       font-weight: 600;
       letter-spacing: 0.08em;
       text-transform: uppercase;
-      color: var(--green);
+      color: var(--purple-mid);
       text-decoration: none;
       white-space: nowrap;
       flex-shrink: 0;
@@ -556,7 +552,7 @@
 
     .closing h2 em {
       font-style: italic;
-      color: var(--green);
+      color: var(--purple);
     }
 
     .closing-right p {
@@ -582,22 +578,28 @@
       transition: background 0.2s, transform 0.2s;
     }
 
-    .closing-btn:hover { background: var(--green); transform: translateY(-2px); }
+    .closing-btn:hover { background: var(--purple); transform: translateY(-2px); }
 
     /* ── FOOTER ── */
     footer {
-      padding: 1.1rem 3rem;
+      padding: 1.5rem 3rem;
       border-top: 1px solid var(--border);
       display: flex;
       justify-content: space-between;
       align-items: center;
       flex-wrap: wrap;
-      gap: 0.5rem;
+      gap: 1rem;
     }
 
-    footer p { font-size: 0.68rem; color: var(--light); }
+    .footer-logo {
+      height: 24px;
+      width: auto;
+      opacity: 0.85;
+    }
+
+    footer p { font-size: 0.68rem; color: var(--mid); }
     footer a { color: var(--mid); text-decoration: none; transition: color 0.15s; }
-    footer a:hover { color: var(--black); }
+    footer a:hover { color: var(--purple); }
 
     /* ── BRANDED TOOL PREVIEWS ── */
     .tool-previews-wrap {
@@ -641,7 +643,7 @@
       font-style: italic;
     }
 
-    /* CoLLab — dark branded */
+    /* CoLLab — dark branded (client's own brand colors preserved) */
     .tp-collab {
       background: #0e0e0e;
       border-color: #222222;
@@ -667,7 +669,7 @@
       border-color: #2a2a2a !important;
     }
 
-    /* Iris B — warm earth branded */
+    /* Iris B — warm earth branded (client's own brand colors preserved) */
     .tp-iris {
       background: #faf7f2;
       border-color: #ddd5c5;
@@ -696,6 +698,7 @@
     /* ── RESPONSIVE ── */
     @media (max-width: 768px) {
       nav { padding: 0.9rem 1.5rem; }
+      .nav-logo { height: 34px; }
       .nav-sub { display: none; }
       .hero { padding: 4rem 1.5rem 3.5rem; }
       .hero-lower { grid-template-columns: 1fr; gap: 2rem; }
@@ -711,7 +714,7 @@
       .tool-preview iframe { height: 360px; }
       .closing { padding: 4rem 1.5rem; }
       .closing-inner { grid-template-columns: 1fr; gap: 2.5rem; }
-      footer { padding: 1.1rem 1.5rem; flex-direction: column; align-items: flex-start; }
+      footer { padding: 1.5rem 1.5rem; flex-direction: column; align-items: flex-start; }
     }
   </style>
 </head>
@@ -719,7 +722,9 @@
 
 <!-- NAV -->
 <nav>
-  <a href="#" class="nav-name">Foundation <span>Forward</span></a>
+  <a href="#" aria-label="Foundation Forward home">
+    <img src="foundation-forward-logo.png" alt="Foundation Forward Consulting" class="nav-logo">
+  </a>
   <div class="nav-right">
     <span class="nav-sub">Kimberly Lohr</span>
     <a href="contact.html" class="nav-cta">Get in touch</a>
@@ -960,7 +965,8 @@
 
 <!-- FOOTER -->
 <footer>
-  <p>Foundation Forward Consulting &mdash; Kimberly Lohr &mdash; <a href="mailto:klohr@foundationforwardacademics.com">klohr@foundationforwardacademics.com</a></p>
+  <img src="foundation-forward-logo.png" alt="Foundation Forward" class="footer-logo">
+  <p>Kimberly Lohr &mdash; <a href="mailto:klohr@foundationforwardacademics.com">klohr@foundationforwardacademics.com</a></p>
   <p>Learning experience design for small businesses and coaches.</p>
 </footer>
 
