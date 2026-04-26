@@ -1,0 +1,1336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Your First Substack Post — Foundation Forward</title>
+  <meta name="description" content="A guided walkthrough for anyone ready to start a Substack — whether you're repurposing existing work or starting from scratch." />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Epilogue:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --black:    #111111;
+      --dark:     #1a1530;
+      --white:    #ffffff;
+      --off:      #f7f6f3;
+      --warm:     #f0ede6;
+      --gray:     #6e6e6e;
+      --mid:      #999999;
+      --light:    #d4d1cb;
+      --purple:       #2E1F5E;
+      --purple-mid:   #6B4EE6;
+      --purple-soft:  #C5B4F5;
+      --purple-dim:   rgba(107,78,230,0.12);
+      --purple-wash:  #F4F0FF;
+      --border:   #e6e3dc;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--white);
+      color: var(--black);
+      font-family: 'Epilogue', sans-serif;
+      font-size: 15px;
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      padding: 1rem 3rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--border);
+      background: rgba(255,255,255,0.96);
+      backdrop-filter: blur(10px);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .nav-logo { height: 42px; width: auto; display: block; }
+    .nav-right { display: flex; align-items: center; gap: 2.5rem; }
+
+    .nav-sub {
+      font-size: 0.65rem;
+      font-weight: 400;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--light);
+    }
+
+    .nav-reset {
+      background: none;
+      border: none;
+      font-family: inherit;
+      font-size: 0.65rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--mid);
+      cursor: pointer;
+      padding: 0;
+      transition: color 0.2s;
+    }
+    .nav-reset:hover { color: var(--purple); }
+
+    /* ── STAGE ── */
+    .stage {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 3.5rem 3rem 5rem;
+    }
+
+    /* ── SCREEN TRANSITIONS ── */
+    .screen {
+      display: none;
+      opacity: 0;
+      transform: translateY(14px);
+      transition: opacity 0.4s ease, transform 0.4s ease;
+    }
+
+    .screen.active {
+      display: block;
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ── PROGRESS DOTS ── */
+    .progress {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .progress-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--light);
+      transition: background 0.3s, width 0.3s;
+    }
+
+    .progress-dot.active {
+      background: var(--purple-mid);
+      width: 24px;
+      border-radius: 3px;
+    }
+
+    .progress-dot.done { background: var(--purple); }
+
+    /* ── COMMON HEADER ── */
+    .screen-tag {
+      font-size: 0.65rem;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--purple);
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .screen-tag::before {
+      content: '';
+      width: 28px;
+      height: 1px;
+      background: var(--purple);
+      display: block;
+    }
+
+    .screen-h1 {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: clamp(2rem, 4.5vw, 3rem);
+      font-weight: 600;
+      line-height: 1.12;
+      color: var(--black);
+      letter-spacing: -0.01em;
+      margin-bottom: 1.5rem;
+    }
+
+    .screen-h1 em {
+      font-style: italic;
+      color: var(--purple-mid);
+    }
+
+    .screen-intro {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+      font-weight: 400;
+      color: var(--gray);
+      line-height: 1.65;
+      margin-bottom: 2.5rem;
+      max-width: 600px;
+    }
+
+    .screen-intro em {
+      font-style: italic;
+      color: var(--purple);
+    }
+
+    /* ── BODY CONTENT ── */
+    .body-section {
+      margin-bottom: 2.5rem;
+    }
+
+    .section-label {
+      font-size: 0.62rem;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--purple);
+      margin-bottom: 1rem;
+    }
+
+    .body-p {
+      font-size: 1rem;
+      line-height: 1.75;
+      color: var(--dark);
+      margin-bottom: 1.25rem;
+    }
+
+    .body-p strong {
+      font-weight: 600;
+      color: var(--black);
+    }
+
+    .body-p em {
+      font-style: italic;
+    }
+
+    /* ── BRANCH CARDS (path selection) ── */
+    .branch-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      margin: 2rem 0 2.5rem;
+    }
+
+    .branch-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      padding: 2rem 1.75rem;
+      cursor: pointer;
+      text-align: left;
+      font-family: inherit;
+      transition: border-color 0.2s, transform 0.2s, background 0.2s;
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+    }
+
+    .branch-card:hover {
+      border-color: var(--purple);
+      background: var(--purple-wash);
+      transform: translateY(-2px);
+    }
+
+    .branch-card-tag {
+      font-size: 0.6rem;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--purple);
+    }
+
+    .branch-card-h {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.35rem;
+      font-weight: 600;
+      line-height: 1.25;
+      color: var(--black);
+    }
+
+    .branch-card-h em {
+      font-style: italic;
+      color: var(--purple);
+    }
+
+    .branch-card-desc {
+      font-size: 0.92rem;
+      color: var(--gray);
+      line-height: 1.55;
+    }
+
+    .branch-card-arrow {
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--purple-mid);
+      margin-top: 0.5rem;
+    }
+
+    /* ── PROS/CONS ── */
+    .proscons {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      margin: 2rem 0 2.5rem;
+    }
+
+    .proscons-col {
+      padding: 1.75rem 0 0;
+      border-top: 2px solid var(--border);
+    }
+
+    .proscons-col.pros { border-top-color: var(--purple); }
+
+    .proscons-label {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.05rem;
+      font-weight: 600;
+      margin-bottom: 1.25rem;
+      color: var(--black);
+    }
+
+    .proscons-label em {
+      font-style: italic;
+      color: var(--purple);
+    }
+
+    .proscons-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+    }
+
+    .proscons-list li {
+      font-size: 0.92rem;
+      color: var(--dark);
+      line-height: 1.6;
+      padding-left: 1.35rem;
+      position: relative;
+    }
+
+    .proscons-list li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0.65rem;
+      width: 10px;
+      height: 1px;
+      background: var(--purple-mid);
+    }
+
+    .proscons-col.cons .proscons-list li::before {
+      background: var(--light);
+    }
+
+    /* ── CALLOUT ── */
+    .callout {
+      background: var(--purple-wash);
+      border-left: 3px solid var(--purple);
+      padding: 1.5rem 1.75rem;
+      margin: 2rem 0;
+    }
+
+    .callout-label {
+      font-size: 0.6rem;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--purple);
+      margin-bottom: 0.65rem;
+    }
+
+    .callout-text {
+      font-family: 'Playfair Display', serif;
+      font-size: 1rem;
+      line-height: 1.65;
+      color: var(--dark);
+    }
+
+    .callout-text em {
+      font-style: italic;
+      color: var(--purple);
+    }
+
+    .callout.warm {
+      background: var(--warm);
+      border-left-color: var(--purple-mid);
+    }
+
+    /* ── INPUT FIELDS ── */
+    .input-group {
+      margin-bottom: 2rem;
+    }
+
+    .input-label {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: var(--black);
+      margin-bottom: 0.5rem;
+      line-height: 1.3;
+    }
+
+    .input-label em {
+      font-style: italic;
+      color: var(--purple);
+    }
+
+    .input-hint {
+      font-size: 0.88rem;
+      color: var(--gray);
+      margin-bottom: 0.85rem;
+      line-height: 1.55;
+    }
+
+    .input-hint em {
+      font-style: italic;
+    }
+
+    textarea.field, input.field {
+      width: 100%;
+      background: var(--white);
+      border: 1px solid var(--border);
+      padding: 1rem 1.15rem;
+      font-family: inherit;
+      font-size: 0.95rem;
+      line-height: 1.6;
+      color: var(--black);
+      resize: vertical;
+      transition: border-color 0.2s, background 0.2s;
+      -webkit-appearance: none;
+      border-radius: 0;
+    }
+
+    textarea.field:focus, input.field:focus {
+      outline: none;
+      border-color: var(--purple);
+      background: var(--white);
+    }
+
+    textarea.field { min-height: 110px; }
+    textarea.field.tall { min-height: 180px; }
+
+    input.field { padding: 0.95rem 1.15rem; }
+
+    /* ── NAV BUTTONS ── */
+    .nav-wrap {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+
+    .back-btn {
+      background: none;
+      border: none;
+      font-family: inherit;
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--mid);
+      cursor: pointer;
+      padding: 0.5rem 0;
+      transition: color 0.2s;
+    }
+
+    .back-btn:hover { color: var(--purple); }
+
+    .continue-btn {
+      background: var(--purple);
+      color: var(--white);
+      border: none;
+      padding: 1rem 2rem;
+      font-family: inherit;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .continue-btn:hover {
+      background: var(--purple-mid);
+      transform: translateX(2px);
+    }
+
+    .continue-btn-arrow { font-size: 1rem; }
+
+    /* ── START BUTTON (bigger, on landing) ── */
+    .start-btn {
+      background: var(--purple);
+      color: var(--white);
+      border: none;
+      padding: 1.15rem 2.5rem;
+      font-family: inherit;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .start-btn:hover {
+      background: var(--purple-mid);
+      transform: translateX(2px);
+    }
+
+    /* ── PATH BADGE (small indicator showing which path the user is on) ── */
+    .path-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.62rem;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--purple-mid);
+      background: var(--purple-wash);
+      padding: 0.4rem 0.85rem;
+      margin-bottom: 1.25rem;
+      border-radius: 999px;
+    }
+
+    .path-badge-dot {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--purple-mid);
+    }
+
+    /* ── FINAL DRAFT SCREEN ── */
+    .draft-card {
+      background: var(--off);
+      border: 1px solid var(--border);
+      border-top: 3px solid var(--purple);
+      padding: 2.25rem;
+      margin-bottom: 2rem;
+    }
+
+    .draft-content {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.05rem;
+      line-height: 1.75;
+      color: var(--dark);
+      white-space: pre-wrap;
+    }
+
+    .draft-actions {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-bottom: 2.5rem;
+    }
+
+    .copy-btn {
+      background: var(--purple);
+      color: var(--white);
+      border: none;
+      padding: 1rem 1.75rem;
+      font-family: inherit;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .copy-btn:hover { background: var(--purple-mid); }
+    .copy-btn.copied { background: #2a8e4a; }
+
+    /* ── NEXT STEPS ── */
+    .next-steps {
+      background: var(--warm);
+      padding: 2.25rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .next-steps-label {
+      font-size: 0.62rem;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--purple);
+      margin-bottom: 1rem;
+    }
+
+    .next-steps h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.35rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      color: var(--black);
+      line-height: 1.3;
+    }
+
+    .next-steps ol {
+      list-style: none;
+      counter-reset: step;
+    }
+
+    .next-steps ol li {
+      counter-increment: step;
+      padding: 0.85rem 0 0.85rem 2.5rem;
+      position: relative;
+      font-size: 0.95rem;
+      line-height: 1.65;
+      color: var(--dark);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .next-steps ol li:last-child { border-bottom: none; }
+
+    .next-steps ol li::before {
+      content: counter(step);
+      position: absolute;
+      left: 0;
+      top: 0.85rem;
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+      font-weight: 600;
+      font-style: italic;
+      color: var(--purple-mid);
+    }
+
+    /* ── RECOMMENDED SUBSTACKS ── */
+    .recs {
+      margin-bottom: 2.5rem;
+    }
+
+    .recs-header {
+      margin-bottom: 1.75rem;
+    }
+
+    .recs-header h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem;
+      font-weight: 600;
+      color: var(--black);
+      margin-bottom: 0.5rem;
+      letter-spacing: -0.01em;
+    }
+
+    .recs-header p {
+      font-size: 0.92rem;
+      color: var(--gray);
+      line-height: 1.6;
+    }
+
+    .rec-item {
+      padding: 1.25rem 0;
+      border-bottom: 1px solid var(--border);
+      display: block;
+      text-decoration: none;
+      color: inherit;
+      transition: background 0.15s;
+      padding-left: 0.5rem;
+      padding-right: 0.5rem;
+      margin-left: -0.5rem;
+      margin-right: -0.5rem;
+    }
+
+    .rec-item:last-child { border-bottom: none; }
+
+    .rec-item:hover {
+      background: var(--purple-wash);
+    }
+
+    .rec-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--black);
+      margin-bottom: 0.35rem;
+      letter-spacing: -0.01em;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .rec-arrow {
+      font-size: 0.9rem;
+      color: var(--purple-mid);
+    }
+
+    .rec-desc {
+      font-size: 0.88rem;
+      color: var(--gray);
+      line-height: 1.55;
+    }
+
+    /* ── CLOSING ── */
+    .closing {
+      padding: 2rem 0 0;
+      border-top: 1px solid var(--border);
+      text-align: center;
+    }
+
+    .closing-text {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+      font-style: italic;
+      color: var(--gray);
+      line-height: 1.6;
+      max-width: 480px;
+      margin: 0 auto 1.5rem;
+    }
+
+    .closing-text em {
+      color: var(--purple);
+    }
+
+    .closing-link {
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--black);
+      text-decoration: none;
+      padding-bottom: 2px;
+      border-bottom: 1.5px solid var(--purple);
+      transition: color 0.2s;
+    }
+
+    .closing-link:hover { color: var(--purple); }
+
+    /* ── SAVE INDICATOR ── */
+    .save-indicator {
+      position: fixed;
+      bottom: 1.5rem;
+      right: 1.5rem;
+      background: var(--black);
+      color: var(--white);
+      padding: 0.65rem 1.1rem;
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      opacity: 0;
+      transition: opacity 0.3s;
+      pointer-events: none;
+      z-index: 200;
+    }
+    .save-indicator.visible { opacity: 0.85; }
+
+    /* ── FOOTER ── */
+    footer {
+      padding: 1.5rem 3rem;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+      background: var(--white);
+    }
+
+    .footer-logo { height: 24px; width: auto; opacity: 0.85; }
+    footer p { font-size: 0.68rem; color: var(--mid); }
+    footer a { color: var(--mid); text-decoration: none; transition: color 0.15s; }
+    footer a:hover { color: var(--purple); }
+
+    /* ── PATH-CONDITIONAL VISIBILITY ──
+       Elements with data-path show only when their path matches the active state */
+    [data-path] { display: none; }
+    body[data-active-path="repurpose"] [data-path~="repurpose"],
+    body[data-active-path="fresh"]     [data-path~="fresh"] {
+      display: revert;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 700px) {
+      nav { padding: 0.9rem 1.25rem; }
+      .nav-logo { height: 34px; }
+      .nav-sub { display: none; }
+      .nav-right { gap: 1rem; }
+      .stage { padding: 2.25rem 1.25rem 3.5rem; }
+      .proscons { grid-template-columns: 1fr; gap: 1.5rem; }
+      .branch-grid { grid-template-columns: 1fr; gap: 1rem; }
+      .draft-card, .next-steps, .callout { padding: 1.5rem; }
+      .nav-wrap { flex-direction: row; }
+      .draft-actions { flex-direction: column; }
+      .copy-btn { width: 100%; text-align: center; }
+      footer { padding: 1.25rem; flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="https://klohr-bit.github.io/foundation-forward-lessons/" aria-label="Foundation Forward home">
+    <img src="https://klohr-bit.github.io/foundation-forward-lessons/Foundation.png" alt="Foundation Forward Consulting" class="nav-logo">
+  </a>
+  <div class="nav-right">
+    <span class="nav-sub">Your First Substack Post</span>
+    <button class="nav-reset" onclick="resetAll()">Start over</button>
+  </div>
+</nav>
+
+<main class="stage">
+
+  <!-- ── 1. LANDING ── -->
+  <section class="screen active" id="screen-1">
+    <p class="screen-tag">A guided walk-through</p>
+    <h1 class="screen-h1">Welcome. <em>Let's build your first Substack post.</em></h1>
+    <p class="screen-intro">By the end of this, you'll have an actual draft. Not a plan to write one. A real first post, ready to paste into Substack and hit publish. It should take about fifteen minutes. Go slow. Your work saves as you go, so you can close the tab and come back later if you need to.</p>
+
+    <div class="callout warm">
+      <div class="callout-label">Before we start</div>
+      <div class="callout-text">This is not a lecture. It's a workbook. I'll explain things as we go, and I'll ask you to paste your own work into a few boxes. Think of this as a first draft space, not a final anything. <em>Perfect is the enemy here.</em></div>
+    </div>
+
+    <div class="nav-wrap">
+      <span></span>
+      <button class="start-btn" data-next="2">Start <span class="continue-btn-arrow">→</span></button>
+    </div>
+  </section>
+
+  <!-- ── 2. PATH SELECTION ── -->
+  <section class="screen" id="screen-2">
+    <p class="screen-tag">Pick your starting point</p>
+    <h1 class="screen-h1">Where are you <em>starting from?</em></h1>
+    <p class="screen-intro">There are two honest paths into a first post. Pick the one that sounds more like you right now. You can always switch later — your work saves either way.</p>
+
+    <div class="branch-grid">
+      <button class="branch-card" data-pick-path="repurpose">
+        <span class="branch-card-tag">Path A</span>
+        <span class="branch-card-h">I already have <em>content out there.</em></span>
+        <span class="branch-card-desc">You've been posting on Instagram, LinkedIn, a blog, a podcast, YouTube — somewhere. You have captions, threads, talks, photos, or essays sitting around. We'll pull from that.</span>
+        <span class="branch-card-arrow">Use what I have →</span>
+      </button>
+      <button class="branch-card" data-pick-path="fresh">
+        <span class="branch-card-tag">Path B</span>
+        <span class="branch-card-h">I'm starting <em>from scratch.</em></span>
+        <span class="branch-card-desc">No archive to mine. Just an idea, a topic, or a feeling that you want to write into. We'll use a repeatable framework to get the first one out.</span>
+        <span class="branch-card-arrow">Build from a framework →</span>
+      </button>
+    </div>
+
+    <div class="nav-wrap">
+      <button class="back-btn" data-back="1">← Back</button>
+      <span></span>
+    </div>
+  </section>
+
+  <!-- ── 3. WHAT SUBSTACK IS ── -->
+  <section class="screen" id="screen-3">
+    <div class="progress">
+      <div class="progress-dot active"></div>
+      <div class="progress-dot"></div>
+      <div class="progress-dot"></div>
+      <div class="progress-dot"></div>
+    </div>
+    <span class="path-badge"><span class="path-badge-dot"></span><span data-path="repurpose">Repurposing path</span><span data-path="fresh">From-scratch path</span></span>
+    <p class="screen-tag">Step 01 of 04 · What it is</p>
+    <h1 class="screen-h1">What Substack actually is, <em>and whether it's for you.</em></h1>
+
+    <div class="body-section">
+      <p class="body-p">Substack is an email newsletter that also lives on the web as your own little site. When you publish a post, it emails everyone who subscribed, and it also stays on your Substack page forever. Readers can find it days, months, or years later.</p>
+      <p class="body-p">It sits somewhere between a blog and social media. People subscribe with their email. You don't fight an algorithm. Your words go straight to the inbox of people who asked to hear from you.</p>
+    </div>
+
+    <!-- REPURPOSE-SPECIFIC CONTEXT -->
+    <div class="body-section" data-path="repurpose">
+      <div class="section-label">For someone with content already out there</div>
+      <p class="body-p">Social platforms reward the scroll. A punchy caption, a clever thread, a clip — and the algorithm decides whether anyone sees it. Substack rewards something different: <strong>the longer thought behind the post.</strong> The story you couldn't fit in a caption. The argument that needed a thousand words instead of two hundred.</p>
+      <p class="body-p">Your archive is an asset. Every old post, every saved draft, every tweet thread you wish more people had seen — that's raw material. We'll spend the next few minutes turning some of it into a real first issue.</p>
+    </div>
+
+    <!-- FRESH-SPECIFIC CONTEXT -->
+    <div class="body-section" data-path="fresh">
+      <div class="section-label">For someone starting fresh</div>
+      <p class="body-p">Starting from zero is harder in one way and easier in another. Harder because there's no archive to lean on. Easier because you don't have to negotiate with anyone's expectations of you. <strong>You get to decide what this is.</strong></p>
+      <p class="body-p">The trick is to use a repeatable shape for your first post — a small frame you can fill in this week, then fill in again next week, and again the week after. That's how a publication gets built. Not from one perfect post, but from a frame you can come back to.</p>
+    </div>
+
+    <div class="body-section">
+      <div class="section-label">The honest picture</div>
+      <div class="proscons">
+        <div class="proscons-col pros">
+          <div class="proscons-label"><em>What's good about it</em></div>
+          <ul class="proscons-list">
+            <li>Readers actually read. Subscribers are higher-intent than followers.</li>
+            <li>No algorithm between you and your audience.</li>
+            <li>Your posts live forever, searchable and linkable.</li>
+            <li>You own the email list. If Substack disappeared tomorrow, you could take it with you.</li>
+            <li>Long-form thinking is rewarded here in a way it isn't on most platforms.</li>
+          </ul>
+        </div>
+        <div class="proscons-col cons">
+          <div class="proscons-label">What's hard about it</div>
+          <ul class="proscons-list">
+            <li>More writing than social. If you hate writing, this is a big ask.</li>
+            <li>Growth is slower. Subscribers come one at a time.</li>
+            <li>The platform is noisy with new writers. Standing out takes real voice.</li>
+            <li>It rewards consistency over brilliance. One great post matters less than ten honest ones.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout">
+      <div class="callout-label">One last thing</div>
+      <div class="callout-text">You can turn on paid subscribers later, once you have readers who love your work. <em>Don't worry about monetizing now.</em> Just get the writing habit started.</div>
+    </div>
+
+    <div class="nav-wrap">
+      <button class="back-btn" data-back="2">← Back</button>
+      <button class="continue-btn" data-next="4">Continue <span class="continue-btn-arrow">→</span></button>
+    </div>
+  </section>
+
+  <!-- ── 4. FIND YOUR CONTENT ── -->
+  <section class="screen" id="screen-4">
+    <div class="progress">
+      <div class="progress-dot done"></div>
+      <div class="progress-dot active"></div>
+      <div class="progress-dot"></div>
+      <div class="progress-dot"></div>
+    </div>
+    <span class="path-badge"><span class="path-badge-dot"></span><span data-path="repurpose">Repurposing path</span><span data-path="fresh">From-scratch path</span></span>
+
+    <!-- REPURPOSE HEADER -->
+    <div data-path="repurpose">
+      <p class="screen-tag">Step 02 of 04 · Find your content</p>
+      <h1 class="screen-h1">You already have <em>most of what you need.</em></h1>
+      <p class="screen-intro">You don't have to write from scratch. You've been posting, captioning, recording, or filming for a while now. We're going to pull from that. Open whichever platform holds your archive in another tab. You'll be copying and pasting a few things.</p>
+    </div>
+
+    <!-- FRESH HEADER -->
+    <div data-path="fresh">
+      <p class="screen-tag">Step 02 of 04 · Find your seed</p>
+      <h1 class="screen-h1">Start with <em>one specific thing.</em></h1>
+      <p class="screen-intro">First posts go sideways when they try to introduce everything you'll ever write about. They go well when they pick one specific moment, lesson, or observation and go deep on it. We're going to find that one specific thing now.</p>
+    </div>
+
+    <!-- REPURPOSE INPUTS -->
+    <div data-path="repurpose">
+      <div class="body-section">
+        <p class="body-p"><strong>Pick one piece of existing content</strong> you want this first post to grow out of. A post that got more replies than usual. A caption you're still proud of. A thread you wish more people had seen. A photo, a clip, a podcast episode, a section of an old essay. <em>One thing.</em></p>
+      </div>
+
+      <div class="input-group">
+        <label class="input-label" for="seed-subject">What is this piece <em>about?</em></label>
+        <p class="input-hint">A plain description in one sentence. <em>e.g. A LinkedIn post about why my first product launch flopped. A photo of a fox at dawn. A podcast episode on parenting through burnout.</em></p>
+        <input type="text" class="field" id="seed-subject" data-save="seed-subject" placeholder="One sentence describing the piece you're starting from.">
+      </div>
+
+      <div class="input-group">
+        <label class="input-label" for="existing-content">Paste in <em>the original</em> (or a chunk of it).</label>
+        <p class="input-hint">The actual caption, post, transcript, or excerpt. It doesn't have to be polished — that's the point. We're going to expand on it, not retype it. <em>e.g. an Instagram caption, a tweet thread, a few paragraphs of a blog post, a podcast episode summary.</em></p>
+        <textarea class="field tall" id="existing-content" data-save="existing-content" placeholder="Paste the original content here."></textarea>
+      </div>
+
+      <div class="input-group">
+        <label class="input-label" for="missing-context">What did you <em>not say</em> the first time?</label>
+        <p class="input-hint">This is where the real Substack post lives. The story you cut for length. The detail you didn't think anyone would care about. The part that wouldn't fit in a caption or a thread. <em>e.g. how long the project actually took. The conversation that changed your mind. The day you almost quit. The part you usually leave out.</em></p>
+        <textarea class="field tall" id="missing-context" data-save="missing-context" placeholder="The part that didn't make the original. Messy is fine."></textarea>
+      </div>
+
+      <div class="callout">
+        <div class="callout-label">Why this matters</div>
+        <div class="callout-text">Most creators have the headline version of their story already public. Almost none of them share the messy middle. <em>That's the part your readers will fall in love with.</em> That's also the part that turns a follower into a subscriber.</div>
+      </div>
+    </div>
+
+    <!-- FRESH INPUTS -->
+    <div data-path="fresh">
+      <div class="body-section">
+        <p class="body-p"><strong>Pick one specific thing</strong> to write about. Not your whole topic. Not your whole story. One small, specific thing inside the bigger thing. The smaller you make it, the easier it is to write — and the more interesting it usually turns out to be.</p>
+      </div>
+
+      <div class="input-group">
+        <label class="input-label" for="seed-subject">In one sentence: <em>what's this post about?</em></label>
+        <p class="input-hint">Be specific. Not "leadership" — "the meeting where I realized I was the bottleneck." Not "running" — "what I think about during the last mile." Not "design" — "why I changed my mind about button labels." <em>Specificity is your friend here.</em></p>
+        <input type="text" class="field" id="seed-subject" data-save="seed-subject" placeholder="One specific moment, lesson, or observation.">
+      </div>
+
+      <div class="input-group">
+        <label class="input-label" for="existing-content">What's <em>the moment</em> at the center of it?</label>
+        <p class="input-hint">Every good first post has a scene — a specific time, place, or event the rest of the post grows out of. Describe it. Where you were, who else was there, what was happening. Don't write it well yet. Just get it down. <em>e.g. the morning your inbox broke you. The client call that changed your pricing. The first time a stranger quoted you back to yourself.</em></p>
+        <textarea class="field tall" id="existing-content" data-save="existing-content" placeholder="The scene at the heart of the post. Just describe it."></textarea>
+      </div>
+
+      <div class="input-group">
+        <label class="input-label" for="missing-context">What's <em>the lesson or shift</em> inside it?</label>
+        <p class="input-hint">Why are you writing about this and not something else? What did this moment teach you, change about you, or make you see differently? Don't worry about being profound. Just be honest. <em>e.g. it changed how I run meetings. It made me realize I'd been pricing out of fear. It taught me my work mattered to someone I'd never meet.</em></p>
+        <textarea class="field tall" id="missing-context" data-save="missing-context" placeholder="What this moment changed, taught, or revealed."></textarea>
+      </div>
+
+      <div class="callout">
+        <div class="callout-label">Why this matters</div>
+        <div class="callout-text">A first post doesn't need to be your manifesto. It needs to be one specific moment, told well, with one honest reflection. <em>That's a repeatable shape.</em> Once you've written one, you can write fifty.</div>
+      </div>
+    </div>
+
+    <div class="nav-wrap">
+      <button class="back-btn" data-back="3">← Back</button>
+      <button class="continue-btn" data-next="5">Continue <span class="continue-btn-arrow">→</span></button>
+    </div>
+  </section>
+
+  <!-- ── 5. ASSEMBLE ── -->
+  <section class="screen" id="screen-5">
+    <div class="progress">
+      <div class="progress-dot done"></div>
+      <div class="progress-dot done"></div>
+      <div class="progress-dot active"></div>
+      <div class="progress-dot"></div>
+    </div>
+    <span class="path-badge"><span class="path-badge-dot"></span><span data-path="repurpose">Repurposing path</span><span data-path="fresh">From-scratch path</span></span>
+    <p class="screen-tag">Step 03 of 04 · Put it together</p>
+    <h1 class="screen-h1">Now we shape it <em>into a post.</em></h1>
+    <p class="screen-intro">A good first post follows a simple shape: a hook, the scene, the story or argument, a small reflection, and a quiet invitation for the reader. We'll fill in each piece using what you already have. Don't overthink any of these. You can edit in Substack later.</p>
+
+    <div class="input-group">
+      <label class="input-label" for="post-title">Give it <em>a title.</em></label>
+      <p class="input-hint">Short. Specific. Curious. Not clever. <em>e.g. "The Fox I Almost Didn't Wait For" beats "Red Fox in Winter." "The Email That Changed My Pricing" beats "On Pricing." "What I Got Wrong About My Launch" beats "Lessons Learned."</em> What actually happened to you? Name it.</p>
+      <input type="text" class="field" id="post-title" data-save="post-title" placeholder="Name what actually happened.">
+    </div>
+
+    <div class="input-group">
+      <label class="input-label" for="post-subtitle">Add a <em>subtitle.</em></label>
+      <p class="input-hint">One line that tells the reader what they're about to read. A small tease, a reflection, or a plain description. <em>e.g. "Some shots don't happen until you've almost given up." "The pricing change I should have made two years earlier." "Three things I learned the hard way about launches."</em></p>
+      <input type="text" class="field" id="post-subtitle" data-save="post-subtitle" placeholder="One line that frames what's coming.">
+    </div>
+
+    <div class="input-group">
+      <label class="input-label" for="post-hook">Write <em>the opening.</em> Two or three sentences.</label>
+      <p class="input-hint">Drop the reader straight into the moment, or straight into a feeling. Don't introduce yourself yet. Don't explain what the post is about. Start <em>inside</em> the scene. <em>e.g. "I had been in the same spot for two hours when the fox finally stepped out." "The email arrived on a Tuesday and I read it four times before I understood what it said."</em> Pull from what you wrote on the last screen.</p>
+      <textarea class="field" id="post-hook" data-save="post-hook" placeholder="Set the scene in two or three sentences."></textarea>
+    </div>
+
+    <div class="input-group">
+      <label class="input-label" for="post-body">Tell <em>the story.</em></label>
+      <p class="input-hint">This is the heart of the post. What happened before, during, and after. What you were thinking. What almost went wrong. What you noticed. Take what you wrote on the last screen and clean it up into a few short paragraphs. Keep it honest, not polished. <em>Short paragraphs read better than long ones in an email.</em></p>
+      <textarea class="field tall" id="post-body" data-save="post-body" placeholder="The story, in your own words. Short paragraphs."></textarea>
+    </div>
+
+    <div class="input-group">
+      <label class="input-label" for="post-reflection">A small <em>reflection</em> at the end.</label>
+      <p class="input-hint">One or two sentences. What this moment taught you, or what you keep thinking about, or what you hope readers take from it. Nothing grand. Just honest. <em>e.g. "I think about that fox every time I want to leave a shoot early." "I still send that email to anyone considering raising their rates."</em></p>
+      <textarea class="field" id="post-reflection" data-save="post-reflection" placeholder="What stayed with you after."></textarea>
+    </div>
+
+    <div class="input-group">
+      <label class="input-label" for="post-invitation">Invite <em>the reader in.</em></label>
+      <p class="input-hint">One line at the very end. A question, a note, or just "thanks for reading." This turns the post from a monologue into the start of a conversation. Optional but helps. <em>e.g. "What's a moment you keep going back to? I'd love to hear about it." "Reply and tell me what you'd have done differently."</em></p>
+      <input type="text" class="field" id="post-invitation" data-save="post-invitation" placeholder="A small open door for the reader.">
+    </div>
+
+    <div class="callout warm">
+      <div class="callout-label">If you have a visual</div>
+      <div class="callout-text">If your post calls for an image — a photo, a chart, a screenshot — you'll add it inside Substack itself, between the opening and the story. Don't worry about that here. Just write. The image slots in when you paste this into Substack.</div>
+    </div>
+
+    <div class="nav-wrap">
+      <button class="back-btn" data-back="4">← Back</button>
+      <button class="continue-btn" data-next="6">See your draft <span class="continue-btn-arrow">→</span></button>
+    </div>
+  </section>
+
+  <!-- ── 6. FINAL DRAFT ── -->
+  <section class="screen" id="screen-6">
+    <div class="progress">
+      <div class="progress-dot done"></div>
+      <div class="progress-dot done"></div>
+      <div class="progress-dot done"></div>
+      <div class="progress-dot active"></div>
+    </div>
+    <span class="path-badge"><span class="path-badge-dot"></span><span data-path="repurpose">Repurposing path</span><span data-path="fresh">From-scratch path</span></span>
+    <p class="screen-tag">Step 04 of 04 · Your draft</p>
+    <h1 class="screen-h1">Here's your post, <em>ready to go.</em></h1>
+    <p class="screen-intro">This is yours now. Copy it, paste it into Substack, add any image you want, and hit publish. You can edit anything at any time in Substack itself. What matters is that you have a real first post, made from real work.</p>
+
+    <div class="draft-card">
+      <div class="draft-content" id="draft-output"></div>
+    </div>
+
+    <div class="draft-actions">
+      <button class="copy-btn" id="copy-btn" onclick="copyDraft()">Copy my draft</button>
+      <button class="back-btn" data-back="5">← Edit</button>
+    </div>
+
+    <div class="next-steps">
+      <div class="next-steps-label">How to actually post it</div>
+      <h3>Five steps from draft to published.</h3>
+      <ol>
+        <li>Go to <strong>substack.com</strong> and sign up if you haven't. Pick a publication name (you can change it later).</li>
+        <li>Click <strong>New post</strong> in the top right.</li>
+        <li>Paste your title in the title field, your subtitle in the subtitle field, and the rest of the body below.</li>
+        <li>If you want a visual, click where you want it to go (after the opening is a safe bet), use the image icon, and upload it.</li>
+        <li>Hit <strong>Publish</strong>. You can always edit it after. Send it to yourself first if you want to see how it looks in an inbox.</li>
+      </ol>
+    </div>
+
+    <div class="recs">
+      <div class="recs-header">
+        <h3>Substacks worth reading as you start.</h3>
+        <p>A small set of newsletters across different niches — chosen for the quality of their writing, the way they structure posts, and what you can quietly learn by reading them.</p>
+      </div>
+      <a href="https://craftalk.substack.com/" target="_blank" class="rec-item">
+        <div class="rec-name">Craft Talk by Jami Attenberg <span class="rec-arrow">↗</span></div>
+        <div class="rec-desc">Bestselling novelist on the writing life. Home of #1000wordsofsummer. The clearest example of how a working writer keeps showing up week after week.</div>
+      </a>
+      <a href="https://wesley.substack.com/" target="_blank" class="rec-item">
+        <div class="rec-name">Process by Wesley Verhoeve <span class="rec-arrow">↗</span></div>
+        <div class="rec-desc">Photography newsletter read by tens of thousands of photographers. Practical, writing-forward, beautifully structured. A model for visual creators.</div>
+      </a>
+      <a href="https://every.to/" target="_blank" class="rec-item">
+        <div class="rec-name">Every <span class="rec-arrow">↗</span></div>
+        <div class="rec-desc">A multi-author publication on tech, business, and craft. Useful as an example of editorial range — how different voices can live under one masthead.</div>
+      </a>
+      <a href="https://annehelen.substack.com/" target="_blank" class="rec-item">
+        <div class="rec-name">Culture Study by Anne Helen Petersen <span class="rec-arrow">↗</span></div>
+        <div class="rec-desc">Long-form essays and reader Q&As on work, culture, and modern life. A masterclass in turning one specific question into a whole post.</div>
+      </a>
+    </div>
+
+    <div class="closing">
+      <p class="closing-text">You just built your first Substack post from real material — yours. <em>This was the hard part.</em> Everything after this is just doing it again.</p>
+      <a href="https://klohr-bit.github.io/foundation-forward-lessons/" class="closing-link">Built by Foundation Forward →</a>
+    </div>
+
+  </section>
+
+</main>
+
+<!-- SAVE INDICATOR -->
+<div class="save-indicator" id="save-indicator">Saved</div>
+
+<!-- FOOTER -->
+<footer>
+  <img src="https://klohr-bit.github.io/foundation-forward-lessons/Foundation.png" alt="Foundation Forward" class="footer-logo">
+  <p>Kimberly Lohr &mdash; <a href="mailto:klohr@foundationforwardacademics.com">klohr@foundationforwardacademics.com</a></p>
+  <p>Learning experience design for small businesses and coaches.</p>
+</footer>
+
+<script>
+  // ══════════════════════════════════════════════════════════════════
+  //  YOUR FIRST SUBSTACK POST — Generalized
+  //  Foundation Forward Consulting
+  //  A guided walkthrough for repurposers and from-scratch writers
+  // ══════════════════════════════════════════════════════════════════
+
+  const STORAGE_KEY  = 'ff_substack_starter_v2';
+  const PATH_KEY     = 'ff_substack_path_v2';
+  const FIELDS = ['seed-subject', 'existing-content', 'missing-context',
+                  'post-title', 'post-subtitle', 'post-hook', 'post-body',
+                  'post-reflection', 'post-invitation'];
+
+  // ── PATH STATE ──
+  function setPath(path) {
+    document.body.setAttribute('data-active-path', path);
+    try { localStorage.setItem(PATH_KEY, path); } catch (e) {}
+  }
+
+  function getPath() {
+    try {
+      return localStorage.getItem(PATH_KEY) || 'repurpose';
+    } catch (e) {
+      return 'repurpose';
+    }
+  }
+
+  // ── STORAGE ──
+  function loadState() {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (!raw) return {};
+      return JSON.parse(raw);
+    } catch (e) {
+      return {};
+    }
+  }
+
+  function saveState() {
+    const state = {};
+    FIELDS.forEach(f => {
+      const el = document.getElementById(f);
+      if (el) state[f] = el.value;
+    });
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      showSaveIndicator();
+    } catch (e) {
+      // storage failed silently - not critical
+    }
+  }
+
+  function restoreFields() {
+    const state = loadState();
+    FIELDS.forEach(f => {
+      const el = document.getElementById(f);
+      if (el && state[f]) el.value = state[f];
+    });
+  }
+
+  let saveTimer;
+  function showSaveIndicator() {
+    const indicator = document.getElementById('save-indicator');
+    indicator.classList.add('visible');
+    clearTimeout(saveTimer);
+    saveTimer = setTimeout(() => {
+      indicator.classList.remove('visible');
+    }, 1200);
+  }
+
+  // ── SCREEN NAVIGATION ──
+  function showScreen(num) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    const target = document.getElementById('screen-' + num);
+    if (target) {
+      target.classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+    if (parseInt(num, 10) === 6) {
+      renderDraft();
+    }
+  }
+
+  // ── DRAFT RENDERING ──
+  function renderDraft() {
+    const s = loadState();
+    const title       = s['post-title']       || '[Your title]';
+    const subtitle    = s['post-subtitle']    || '';
+    const hook        = s['post-hook']        || '[Your opening]';
+    const body        = s['post-body']        || '[Your story]';
+    const reflection  = s['post-reflection']  || '';
+    const invitation  = s['post-invitation']  || '';
+    const seedSubject = s['seed-subject']     || '';
+
+    let draft = '';
+    draft += title + '\n';
+    if (subtitle) draft += subtitle + '\n';
+    draft += '\n';
+    draft += hook + '\n\n';
+    if (seedSubject) {
+      draft += '[Image, photo, or visual related to: ' + seedSubject + ' — optional, add inside Substack]\n\n';
+    }
+    draft += body + '\n\n';
+    if (reflection) draft += reflection + '\n\n';
+    if (invitation) draft += invitation + '\n';
+
+    document.getElementById('draft-output').textContent = draft;
+  }
+
+  function copyDraft() {
+    const text = document.getElementById('draft-output').textContent;
+    const btn = document.getElementById('copy-btn');
+
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(() => {
+        btn.textContent = 'Copied!';
+        btn.classList.add('copied');
+        setTimeout(() => {
+          btn.textContent = 'Copy my draft';
+          btn.classList.remove('copied');
+        }, 2000);
+      }).catch(() => fallbackCopy(text, btn));
+    } else {
+      fallbackCopy(text, btn);
+    }
+  }
+
+  function fallbackCopy(text, btn) {
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed';
+    ta.style.left = '-9999px';
+    document.body.appendChild(ta);
+    ta.select();
+    try {
+      document.execCommand('copy');
+      btn.textContent = 'Copied!';
+      btn.classList.add('copied');
+      setTimeout(() => {
+        btn.textContent = 'Copy my draft';
+        btn.classList.remove('copied');
+      }, 2000);
+    } catch (e) {
+      btn.textContent = 'Please select and copy manually';
+    }
+    document.body.removeChild(ta);
+  }
+
+  // ── RESET ──
+  function resetAll() {
+    if (confirm('This will clear everything you\'ve entered and start over. Are you sure?')) {
+      try {
+        localStorage.removeItem(STORAGE_KEY);
+        localStorage.removeItem(PATH_KEY);
+      } catch (e) {}
+      FIELDS.forEach(f => {
+        const el = document.getElementById(f);
+        if (el) el.value = '';
+      });
+      document.body.removeAttribute('data-active-path');
+      showScreen(1);
+    }
+  }
+
+  // ── INITIAL SETUP ──
+  document.addEventListener('DOMContentLoaded', () => {
+    // Restore path if previously chosen
+    const savedPath = (() => {
+      try { return localStorage.getItem(PATH_KEY); } catch (e) { return null; }
+    })();
+    if (savedPath) {
+      document.body.setAttribute('data-active-path', savedPath);
+    }
+
+    restoreFields();
+
+    // Bind save to all fields
+    FIELDS.forEach(f => {
+      const el = document.getElementById(f);
+      if (el) {
+        el.addEventListener('input', () => {
+          clearTimeout(el._saveTimer);
+          el._saveTimer = setTimeout(saveState, 400);
+        });
+      }
+    });
+
+    // Path selection cards
+    document.querySelectorAll('[data-pick-path]').forEach(card => {
+      card.addEventListener('click', () => {
+        setPath(card.dataset.pickPath);
+        saveState();
+        showScreen(3);
+      });
+    });
+
+    // Bind nav buttons
+    document.querySelectorAll('[data-next]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        saveState();
+        showScreen(btn.dataset.next);
+      });
+    });
+
+    document.querySelectorAll('[data-back]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        saveState();
+        showScreen(btn.dataset.back);
+      });
+    });
+  });
+</script>
+
+</body>
+</html>
