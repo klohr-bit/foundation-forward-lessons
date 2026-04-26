@@ -1,0 +1,1124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Coach the Moment — IPR</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,800;1,9..144,500&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --lime: #c8e830;
+    --lime-deep: #a8c424;
+    --lime-soft: #f0f8d4;
+    --ink: #0f1410;
+    --ink-soft: #2a302a;
+    --paper: #fdfdf8;
+    --paper-shadow: #e8e8df;
+    --rule: #1a1e1a;
+    --muted: #6b706b;
+    --red: #c84b3a;
+    --amber: #d4941e;
+    --green: #3d8b52;
+  }
+
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    font-family: 'Fraunces', Georgia, serif;
+    background: var(--paper);
+    color: var(--ink);
+    line-height: 1.5;
+    padding: 0;
+    min-height: 100vh;
+    background-image:
+      radial-gradient(circle at 20% 10%, rgba(200, 232, 48, 0.08) 0%, transparent 40%),
+      radial-gradient(circle at 80% 90%, rgba(200, 232, 48, 0.06) 0%, transparent 40%);
+  }
+
+  .container {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 48px 28px 80px;
+  }
+
+  /* ============ HEADER ============ */
+  .header {
+    border-bottom: 2px solid var(--ink);
+    padding-bottom: 24px;
+    margin-bottom: 32px;
+    position: relative;
+  }
+
+  .eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink);
+    background: var(--lime);
+    display: inline-block;
+    padding: 5px 10px 4px;
+    margin-bottom: 20px;
+  }
+
+  h1 {
+    font-family: 'Fraunces', serif;
+    font-weight: 800;
+    font-size: clamp(30px, 5vw, 44px);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    margin-bottom: 12px;
+  }
+
+  h1 em {
+    font-style: italic;
+    font-weight: 500;
+    color: var(--ink-soft);
+  }
+
+  .subtitle {
+    font-size: 16px;
+    color: var(--muted);
+    font-style: italic;
+    font-weight: 400;
+  }
+
+  /* ============ SCENARIO TRACKER ============ */
+  .tracker {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 28px;
+    align-items: center;
+  }
+
+  .tracker-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-right: 10px;
+    font-weight: 700;
+  }
+
+  .tracker-pips {
+    display: flex;
+    gap: 6px;
+    flex: 1;
+  }
+
+  .pip {
+    width: 28px;
+    height: 4px;
+    background: var(--paper-shadow);
+    transition: background 0.3s ease;
+  }
+
+  .pip.active {
+    background: var(--ink);
+  }
+
+  .pip.complete {
+    background: var(--lime-deep);
+  }
+
+  .tracker-count {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    margin-left: 10px;
+  }
+
+  /* ============ STAGE LABEL ============ */
+  .stage-label {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 18px;
+  }
+
+  .stage-label .dot {
+    width: 8px;
+    height: 8px;
+    background: var(--lime);
+    border-radius: 50%;
+    flex-shrink: 0;
+    box-shadow: 0 0 0 3px var(--lime-soft);
+  }
+
+  .stage-label .line {
+    flex: 1;
+    height: 1px;
+    background: var(--rule);
+    opacity: 0.2;
+  }
+
+  .stage-label .scenario-tag {
+    font-weight: 700;
+    color: var(--ink);
+  }
+
+  /* ============ SCENARIO CARD ============ */
+  .scenario {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 32px 30px;
+    border-radius: 2px;
+    position: relative;
+    margin-bottom: 28px;
+    box-shadow: 8px 8px 0 var(--lime);
+  }
+
+  .scenario::before {
+    content: attr(data-label);
+    position: absolute;
+    top: -10px;
+    left: 24px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    font-weight: 700;
+    background: var(--lime);
+    color: var(--ink);
+    padding: 4px 10px;
+  }
+
+  .scenario-title {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-style: italic;
+    font-size: 15px;
+    color: var(--lime);
+    margin-bottom: 14px;
+    letter-spacing: 0.01em;
+  }
+
+  .scenario-text {
+    font-size: 18px;
+    line-height: 1.55;
+    font-weight: 400;
+  }
+
+  .scenario-text strong {
+    font-weight: 600;
+    background: linear-gradient(transparent 65%, rgba(200, 232, 48, 0.35) 65%);
+    padding: 0 2px;
+  }
+
+  .scenario-text em {
+    font-style: italic;
+  }
+
+  .time-pressure {
+    margin-top: 18px;
+    padding-top: 18px;
+    border-top: 1px dashed rgba(253, 253, 248, 0.2);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--lime);
+    letter-spacing: 0.05em;
+  }
+
+  /* ============ PROMPT ============ */
+  .prompt {
+    text-align: center;
+    margin: 32px 0 20px;
+  }
+
+  .prompt-text {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 21px;
+    font-weight: 500;
+    color: var(--ink);
+  }
+
+  /* ============ CHOICES ============ */
+  .choices {
+    display: grid;
+    gap: 12px;
+    margin-bottom: 28px;
+  }
+
+  .choice {
+    background: var(--paper);
+    border: 2px solid var(--ink);
+    padding: 16px 20px;
+    text-align: left;
+    font-family: 'Fraunces', serif;
+    font-size: 16px;
+    line-height: 1.4;
+    color: var(--ink);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    width: 100%;
+    font-weight: 400;
+  }
+
+  .choice:hover:not(:disabled) {
+    background: var(--lime-soft);
+    transform: translate(-2px, -2px);
+    box-shadow: 4px 4px 0 var(--ink);
+  }
+
+  .choice:active:not(:disabled) {
+    transform: translate(0, 0);
+    box-shadow: 0 0 0 var(--ink);
+  }
+
+  .choice-letter {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700;
+    font-size: 13px;
+    background: var(--ink);
+    color: var(--paper);
+    width: 26px;
+    height: 26px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .choice:disabled {
+    cursor: default;
+    opacity: 0.35;
+  }
+
+  .choice.selected {
+    background: var(--lime);
+    border-color: var(--ink);
+    opacity: 1 !important;
+  }
+
+  .choice.selected .choice-letter {
+    background: var(--paper);
+    color: var(--ink);
+  }
+
+  /* ============ FEEDBACK PANEL ============ */
+  .feedback {
+    display: none;
+    margin-top: 28px;
+    animation: slideIn 0.4s ease-out;
+  }
+
+  .feedback.visible {
+    display: block;
+  }
+
+  @keyframes slideIn {
+    from {
+      opacity: 0;
+      transform: translateY(12px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .verdict {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    font-weight: 700;
+    padding: 10px 16px;
+    margin-bottom: 20px;
+    width: fit-content;
+  }
+
+  .verdict.inr {
+    background: var(--red);
+    color: var(--paper);
+  }
+
+  .verdict.mixed {
+    background: var(--amber);
+    color: var(--paper);
+  }
+
+  .verdict.ipr {
+    background: var(--green);
+    color: var(--paper);
+  }
+
+  .feedback-body {
+    background: var(--paper);
+    border-left: 4px solid var(--ink);
+    padding: 4px 0 4px 22px;
+    margin-bottom: 24px;
+  }
+
+  .feedback-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 6px;
+    font-weight: 700;
+  }
+
+  .feedback-text {
+    font-size: 16px;
+    line-height: 1.55;
+    color: var(--ink);
+    margin-bottom: 16px;
+  }
+
+  .feedback-text:last-child {
+    margin-bottom: 0;
+  }
+
+  .feedback-text em {
+    font-style: italic;
+    font-weight: 500;
+  }
+
+  .danielle-says {
+    background: var(--lime-soft);
+    border: 1px solid var(--lime-deep);
+    padding: 22px 24px;
+    position: relative;
+    margin-bottom: 24px;
+  }
+
+  .danielle-says::before {
+    content: 'WHAT I’D DO';
+    position: absolute;
+    top: -9px;
+    left: 16px;
+    background: var(--paper);
+    padding: 0 8px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    font-weight: 700;
+    color: var(--ink);
+  }
+
+  .danielle-says p {
+    font-size: 15px;
+    line-height: 1.55;
+    color: var(--ink);
+  }
+
+  .danielle-says p + p {
+    margin-top: 10px;
+  }
+
+  .danielle-says strong {
+    font-weight: 700;
+  }
+
+  /* ============ CONTROLS ============ */
+  .controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin-top: 28px;
+    padding-top: 24px;
+    border-top: 1px dashed var(--rule);
+    opacity: 0.5;
+    flex-wrap: wrap;
+  }
+
+  .controls.visible {
+    opacity: 1;
+  }
+
+  .btn {
+    background: none;
+    border: 1px solid var(--ink);
+    padding: 10px 18px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink);
+    cursor: pointer;
+    transition: all 0.15s ease;
+    font-weight: 700;
+  }
+
+  .btn:hover:not(:disabled) {
+    background: var(--ink);
+    color: var(--paper);
+  }
+
+  .btn:disabled {
+    opacity: 0.3;
+    cursor: default;
+  }
+
+  .btn.primary {
+    background: var(--ink);
+    color: var(--paper);
+  }
+
+  .btn.primary:hover {
+    background: var(--lime);
+    color: var(--ink);
+    border-color: var(--ink);
+  }
+
+  /* ============ COMPLETION CARD ============ */
+  .completion {
+    display: none;
+    background: var(--ink);
+    color: var(--paper);
+    padding: 40px 32px;
+    text-align: center;
+    margin-top: 32px;
+    box-shadow: 8px 8px 0 var(--lime);
+    animation: slideIn 0.5s ease-out;
+  }
+
+  .completion.visible {
+    display: block;
+  }
+
+  .completion-eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    color: var(--lime);
+    font-weight: 700;
+    margin-bottom: 14px;
+  }
+
+  .completion h2 {
+    font-family: 'Fraunces', serif;
+    font-weight: 800;
+    font-size: 28px;
+    line-height: 1.15;
+    margin-bottom: 16px;
+    letter-spacing: -0.01em;
+  }
+
+  .completion h2 em {
+    font-style: italic;
+    font-weight: 500;
+    color: var(--lime);
+  }
+
+  .completion p {
+    font-size: 16px;
+    line-height: 1.55;
+    color: var(--paper);
+    opacity: 0.88;
+    max-width: 520px;
+    margin: 0 auto 20px;
+  }
+
+  .completion .restart {
+    margin-top: 12px;
+    background: var(--lime);
+    color: var(--ink);
+    border: none;
+    padding: 12px 24px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+
+  .completion .restart:hover {
+    background: var(--paper);
+  }
+
+  /* ============ FOOTER ============ */
+  .footer-note {
+    margin-top: 48px;
+    padding-top: 28px;
+    border-top: 2px solid var(--ink);
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.55;
+    font-style: italic;
+  }
+
+  .footer-note strong {
+    font-style: normal;
+    font-weight: 700;
+    color: var(--ink);
+  }
+
+  /* ============ RESPONSIVE ============ */
+  @media (max-width: 600px) {
+    .container {
+      padding: 32px 18px 60px;
+    }
+    .scenario {
+      padding: 26px 20px;
+      box-shadow: 6px 6px 0 var(--lime);
+    }
+    .scenario-text {
+      font-size: 16px;
+    }
+    .choice {
+      font-size: 15px;
+      padding: 14px 16px;
+    }
+    .prompt-text {
+      font-size: 18px;
+    }
+    .pip {
+      width: 20px;
+    }
+    .controls {
+      justify-content: center;
+    }
+    .completion {
+      padding: 32px 22px;
+      box-shadow: 6px 6px 0 var(--lime);
+    }
+    .completion h2 {
+      font-size: 24px;
+    }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <header class="header">
+    <div class="eyebrow">Coach the Moment · IPR</div>
+    <h1>Two seconds. <em>One choice.</em></h1>
+    <p class="subtitle">Five coaching scenarios on Instant Positive Response.</p>
+  </header>
+
+  <div class="tracker">
+    <span class="tracker-label">Scenarios</span>
+    <div class="tracker-pips" id="trackerPips"></div>
+    <span class="tracker-count" id="trackerCount">1 / 5</span>
+  </div>
+
+  <div id="scenarioView">
+    <!-- Scenario content injected here -->
+  </div>
+
+  <div class="completion" id="completion">
+    <div class="completion-eyebrow">LAB COMPLETE</div>
+    <h2>Nice work. <em>Five moments, one habit.</em></h2>
+    <p>
+      IPR isn't a single choice — it's a pattern you build across seasons. The coach
+      your athletes remember is the one who shows them how to reset faster than they
+      could on their own.
+    </p>
+    <p>
+      Run through the scenarios again. Try the answers you didn't pick the first
+      time. Notice which ones felt obvious and which ones you had to think about —
+      that's your growing edge.
+    </p>
+    <button class="restart" id="restartBtn">↻ Run it again</button>
+  </div>
+
+  <div class="footer-note">
+    <strong>Why this exercise?</strong> Most coaching decisions happen in the two
+    seconds between a mistake and the next play. Reading about IPR is easy. Choosing
+    it under time pressure is the whole skill. Come back as many times as you need.
+  </div>
+
+</div>
+
+<script>
+  const scenarios = [
+    {
+      id: 1,
+      label: 'THE MOMENT',
+      title: 'The visible frustration',
+      text: 'Your player just had a <strong>bad trap</strong> in a 2v2. The ball rolls out of bounds. She slams her stick down and mouths <em>"sorry"</em> with her head hanging.',
+      timing: '▸ You have ~2 seconds before the next restart.',
+      choices: [
+        {
+          key: 'A',
+          text: 'Call her over and talk about what went wrong with the trap.',
+          verdict: 'INR',
+          verdictClass: 'inr',
+          verdictLabel: 'Reinforces Instant Negative Response',
+          analysis: [
+            "Pulling her over mid-drill sends three signals at once: <em>the mistake was big enough to stop play</em>, <em>the way you're already feeling about it is the right way to feel</em>, and <em>we're going to sit in it for a minute</em>. All three reinforce INR.",
+            "There's a time to teach the trap. It isn't here. When you stop play to talk about a mistake, you've just taught every player on the field that mistakes are things we stop for — not things we move past."
+          ],
+          danielle: [
+            "Teaching moments land better when they're <strong>separated from the emotional moment</strong>. If her trap needs work, I'll cue it at the next water break — or work it into the drill design next week. Not in the 2 seconds after she's already embarrassed."
+          ]
+        },
+        {
+          key: 'B',
+          text: 'Say nothing. Let her work through it on her own.',
+          verdict: 'Mixed',
+          verdictClass: 'mixed',
+          verdictLabel: "Neutral — and neutral isn't enough",
+          analysis: [
+            "This isn't wrong. Silence protects you from overcoaching, and some athletes genuinely need space to reset on their own.",
+            "But IPR is a <em>trained</em> skill, not a default one. If she could already reset on her own, she would have. Right now she's carrying the bowl — and nobody's shown her the strainer. Silence here leaves her alone with the mistake."
+          ],
+          danielle: [
+            "Silence is a tool I use when an athlete has <strong>already shown me she can IPR</strong>. Then stepping back is respect. Early in the season — or with an athlete who just slammed her stick — silence reads as absence, not trust."
+          ]
+        },
+        {
+          key: 'C',
+          text: 'Make eye contact, point at your head, and clap.',
+          verdict: 'IPR',
+          verdictClass: 'ipr',
+          verdictLabel: 'Strong Execute move',
+          analysis: [
+            "Eye contact + point to the head + clap does three things in under a second: it <em>names the behavior</em> (reset your mind), <em>affirms her</em> (I see you, I'm with you), and <em>keeps play moving</em> (we don't stop for this).",
+            "Zero words. Zero interruption. Pure coaching."
+          ],
+          danielle: [
+            "This is the one I'd pick nine times out of ten. The clap is the part most coaches miss — it turns a correction into a <strong>connection</strong>. Point-and-clap reads as <em>get your head back, and I've got you</em>."
+          ]
+        },
+        {
+          key: 'D',
+          text: 'Call out "strainer!" and keep play moving.',
+          verdict: 'IPR',
+          verdictClass: 'ipr',
+          verdictLabel: 'Strong Execute move — if the language is shared',
+          analysis: [
+            "Using <em>\"strainer!\"</em> as a live cue is exactly the payoff of the Bowl vs. Strainer analogy — one word that carries the whole concept. The mental frame activates instantly and play continues.",
+            "This only works if you've already laid the groundwork. If the team doesn't know the analogy yet, \"strainer\" is just a strange word yelled at a kid who's already embarrassed."
+          ],
+          danielle: [
+            "I love a shared vocabulary cue. <em>Strainer</em>, <em>POP</em>, <em>triple threat</em> — these let me coach in one syllable from 30 yards away. But the cue is only as strong as the concept behind it. <strong>Teach the analogy first. Then the word does the work.</strong>"
+          ]
+        }
+      ]
+    },
+    {
+      id: 2,
+      label: 'THE MOMENT',
+      title: 'Snapping at a teammate',
+      text: 'In a 3v3, your center made a bad pass and your wing snaps: <em>"Oh my god, what was that?!"</em> The center freezes. The wing is still glaring. <strong>Play is about to restart.</strong>',
+      timing: '▸ 2 seconds. Both players are watching you now.',
+      choices: [
+        {
+          key: 'A',
+          text: 'Stop play and address the wing\'s comment directly.',
+          verdict: 'Mixed',
+          verdictClass: 'mixed',
+          verdictLabel: 'Right intent, wrong moment',
+          analysis: [
+            "The wing's behavior absolutely needs addressing — but stopping play to do it <em>in front of everyone</em> turns a coaching moment into public discipline. The wing shuts down. The center feels exposed.",
+            "Worse: you've just spent 30 seconds on a conversation that could've happened in a 60-second water break with more care."
+          ],
+          danielle: [
+            "I never stop a drill to call out a player's attitude in front of the group. If I can coach it <em>through</em> the drill, I do. If I can't, it waits — and I pull the wing aside at the next natural break. <strong>Discipline happens in private. Culture happens in public.</strong>"
+          ]
+        },
+        {
+          key: 'B',
+          text: 'Ignore it. Focus on the next play.',
+          verdict: 'INR',
+          verdictClass: 'inr',
+          verdictLabel: 'Silence = permission',
+          analysis: [
+            "Coaches sometimes think staying out of teammate conflict respects the athletes' autonomy. In practice, it signals that snapping at a teammate after a mistake is acceptable — because nobody corrected it.",
+            "Your job isn't to referee every small comment. But this one was loud enough that the center froze. That means every other player on the field saw it too. If you ignore it, <em>the team learns the wrong lesson</em>."
+          ],
+          danielle: [
+            "I'm watching for team IPR, not just individual IPR. A teammate who <em>adds</em> to another player's mistake is carrying the bowl <em>and</em> pouring water into their teammate's. That gets named. Quietly. Quickly. Always."
+          ]
+        },
+        {
+          key: 'C',
+          text: 'As play restarts, call to the wing: "That\'s on you — go get her next play."',
+          verdict: 'IPR',
+          verdictClass: 'ipr',
+          verdictLabel: 'Redirects ownership without stopping play',
+          analysis: [
+            "This does a lot in one sentence. It names that the wing's reaction — not the pass — was the actual problem (<em>\"that's on you\"</em>). It gives her something to do with her energy (<em>\"go get her\"</em>). And it models IPR in real time: mistake → cue → move on.",
+            "You've also, subtly, told the center: <em>I see what just happened. You're not alone.</em>"
+          ],
+          danielle: [
+            "This is Liberty's Failure Recovery System, but applied to <em>how we treat each other</em> in the failure. The wing's next play has to be an act of repair — a pass, a hustle, a high-five. That's how teams build IPR into team culture: the recovery is <strong>visible</strong>."
+          ]
+        },
+        {
+          key: 'D',
+          text: 'Call both players over at the next break and talk through it.',
+          verdict: 'IPR',
+          verdictClass: 'ipr',
+          verdictLabel: 'Right — as a follow-up, not a first move',
+          analysis: [
+            "Pulling them aside at the next break is the <em>right</em> conversation to have. Ask the wing: what were you feeling? Ask the center: what did you hear? Model the repair.",
+            "Just don't skip option C first. The in-the-moment redirect is what keeps the whole team learning; the break-time conversation is what helps these two specific players grow. You want both."
+          ],
+          danielle: [
+            "The conversation is where the learning sticks. But I want the <em>in-the-moment</em> redirect first, because <strong>every other player on the field is watching how I respond</strong>. The water-break chat is for them. The live cue is for everyone else."
+          ]
+        }
+      ]
+    },
+    {
+      id: 3,
+      label: 'THE MOMENT',
+      title: 'The silent shutdown',
+      text: 'Your usually vocal midfielder has gone quiet. No stick slam. No frustration. Just — <em>absent</em>. She hasn\'t talked to a teammate in 10 minutes. She missed two easy passes and didn\'t react to either. <strong>Nothing looks wrong, but nothing is right.</strong>',
+      timing: '▸ No clock on this one. This is the INR most coaches miss.',
+      choices: [
+        {
+          key: 'A',
+          text: 'Push her harder. High standards will snap her back.',
+          verdict: 'INR',
+          verdictClass: 'inr',
+          verdictLabel: 'Mistakes the symptom for the problem',
+          analysis: [
+            "Pushing a shut-down athlete harder usually pushes her further inside. A quiet player isn't being lazy — she's managing something (fatigue, confidence, something off the field).",
+            "\"Tough it out\" coaching works on the player who's engaged and needs a nudge. It backfires on the player who's already dissociated. You'll get compliance, not presence."
+          ],
+          danielle: [
+            "Withdrawal isn't laziness. It's a form of INR that <em>doesn't look like</em> INR — and it's the one I almost missed in my first year coaching. Now when I see it, I slow down, not speed up."
+          ]
+        },
+        {
+          key: 'B',
+          text: 'Pull her aside at the water break and ask: "What\'s going on with you today?"',
+          verdict: 'IPR',
+          verdictClass: 'ipr',
+          verdictLabel: 'The right question at the right volume',
+          analysis: [
+            "Quiet, private, curious. Not <em>what's wrong with you</em> — <em>what's going on with you</em>. The first is a correction; the second is a door.",
+            "You may get a real answer. You may get <em>\"nothing\"</em>. Either way, she knows you saw her. That's often the whole intervention."
+          ],
+          danielle: [
+            "I ask this question constantly and it almost always reveals something — a hard test that morning, a fight with a sibling, her teammate said something weird in warm-up. The silent shutdown is <strong>almost never about field hockey</strong>. And once I know that, I can coach the rest of the session differently."
+          ]
+        },
+        {
+          key: 'C',
+          text: 'Give her a specific small job: "You\'re calling the outlet this next rep."',
+          verdict: 'IPR',
+          verdictClass: 'ipr',
+          verdictLabel: 'Re-engages through ownership',
+          analysis: [
+            "A withdrawn athlete can often be pulled back by a <em>concrete, external</em> task — something that requires her voice or attention but doesn't ask her to perform emotionally.",
+            "It also tells her, without saying it: <em>I still trust you with something important.</em> For a player who's spiraling quietly, that matters more than a pep talk."
+          ],
+          danielle: [
+            "I love this move for players who don't want to be asked what's wrong. Giving her a job means she has to talk, move, engage — and she gets to <em>choose</em> to, not <em>confess</em> to something first. Use B when you sense she'd welcome the conversation. Use C when you sense she wouldn't."
+          ]
+        },
+        {
+          key: 'D',
+          text: 'Let her ride it out. Check in after practice.',
+          verdict: 'Mixed',
+          verdictClass: 'mixed',
+          verdictLabel: 'Appropriate sometimes — risky as a default',
+          analysis: [
+            "Some athletes genuinely process by going inward and just need space. Checking in after practice can absolutely be the right move, especially with older, self-aware players.",
+            "But \"ride it out\" shouldn't be your default. If it is, you'll miss the kids who are hoping you'll notice. A quiet player who needed to be asked during practice and wasn't often leaves practice feeling invisible."
+          ],
+          danielle: [
+            "This is right for the player who I already know processes quietly and comes back on her own. It's wrong for a player I don't know well yet, or one whose silence is <em>unusual</em> for her. <strong>Notice the deviation from her baseline</strong> — that's the data."
+          ]
+        }
+      ]
+    },
+    {
+      id: 4,
+      label: 'THE MOMENT',
+      title: 'Your drill just flopped',
+      text: 'You designed a new constraint-based drill. Five minutes in, it\'s clear the constraint isn\'t working — players are confused, the game has broken down, and two athletes are looking at each other like <em>"is this right?"</em> <strong>The drill is not doing what you hoped it would.</strong>',
+      timing: '▸ This one\'s about your IPR, not theirs.',
+      choices: [
+        {
+          key: 'A',
+          text: 'Push through. Give it more time to work.',
+          verdict: 'INR',
+          verdictClass: 'inr',
+          verdictLabel: 'Protects your ego, not their learning',
+          analysis: [
+            "Sometimes a drill needs 90 more seconds to click. But more often, the \"just give it more time\" instinct is about <em>us</em> — not wanting to admit the design flopped.",
+            "Every minute a broken drill runs, your players are learning something. Usually the wrong thing. And they're learning that <em>you don't notice when things aren't working</em>."
+          ],
+          danielle: [
+            "This was the hardest IPR lesson I had to learn as a coach. The session plan is not the session. <strong>The athletes in front of me are the session.</strong> If the plan isn't serving them, the plan is the thing that has to change."
+          ]
+        },
+        {
+          key: 'B',
+          text: 'Stop the drill, apologize, and say "that one\'s on me — let\'s try it differently."',
+          verdict: 'IPR',
+          verdictClass: 'ipr',
+          verdictLabel: 'Models IPR for the whole team',
+          analysis: [
+            "This is the most powerful coaching move in the set. Your athletes are watching a fully grown adult, in a position of authority, <em>name a mistake and move on without drama</em>. That's IPR made visible.",
+            "The permission you give yourself here is the permission they'll take with them. If the coach can blow a drill and recover, so can they."
+          ],
+          danielle: [
+            "I say some version of <em>\"that one's on me\"</em> almost every practice. It costs me nothing and teaches them everything. <strong>If I can't IPR, I can't ask them to.</strong>"
+          ]
+        },
+        {
+          key: 'C',
+          text: 'Adjust the constraint on the fly without stopping play.',
+          verdict: 'IPR',
+          verdictClass: 'ipr',
+          verdictLabel: 'Good — if they know you\'re adjusting',
+          analysis: [
+            "This is a skilled move. Good coaches adjust constraints live all the time — tightening, loosening, adding a wrinkle. Minimal disruption, maximum learning.",
+            "The only catch: be transparent that you're tweaking it. <em>\"New rule — defenders can't use sticks for 30 seconds\"</em> works. Silent adjustments confuse players who were just starting to understand the original constraint."
+          ],
+          danielle: [
+            "My go-to when the drill has <em>potential</em> but the constraint is off. If the whole design is broken, I stop and reset (option B). If just one dial needs turning, I call out the new rule and we keep going. <strong>Live adjustment is a skill — and so is knowing when to abandon the drill entirely.</strong>"
+          ]
+        },
+        {
+          key: 'D',
+          text: 'Blame the drill: "This one\'s from a book, sorry guys, let\'s move on."',
+          verdict: 'Mixed',
+          verdictClass: 'mixed',
+          verdictLabel: 'Honest — but outsourcing the ownership',
+          analysis: [
+            "Naming that the drill didn't work is good. Deflecting to \"the book\" subtly removes you from the equation — and that's where the IPR modeling lives.",
+            "Your athletes don't care where the drill came from. They care how <em>you</em> respond when something you chose to run doesn't go well."
+          ],
+          danielle: [
+            "Even if I stole the drill from a USA Field Hockey coaching clinic, <em>I'm</em> the one who put it in my session plan. <strong>Owning it is the rep.</strong> \"That one's on me\" lands. \"That one's on the book\" doesn't."
+          ]
+        }
+      ]
+    },
+    {
+      id: 5,
+      label: 'THE MOMENT',
+      title: 'After the whistle',
+      text: 'Great session. Your strongest player was sharp all practice. Then in the final scrimmage, she <strong>blew a clear chance at goal</strong> — missed the trap, the ball rolled wide, whistle went. As the team walks off, she\'s shaking her head and muttering. <em>Practice is technically over.</em>',
+      timing: '▸ No clock. Just a choice about what ends with the whistle.',
+      choices: [
+        {
+          key: 'A',
+          text: 'Let it go. Practice is over.',
+          verdict: 'Mixed',
+          verdictClass: 'mixed',
+          verdictLabel: 'Fine — unless you never circle back',
+          analysis: [
+            "Respecting that practice is done is legitimate. You don't owe every athlete a post-practice therapy session.",
+            "But if you never acknowledge the moment, you've taught her that IPR applies during drills but not <em>actually</em> in the way she carries the practice home. The ride-home rumination is where most athletes lose confidence."
+          ],
+          danielle: [
+            "Sometimes the right move is saying nothing <em>now</em> and texting her that night or catching her at the next session. Letting it go is fine. <strong>Forgetting is not.</strong>"
+          ]
+        },
+        {
+          key: 'B',
+          text: 'Catch her on the way out: "Hey — strong session. Don\'t carry that last one."',
+          verdict: 'IPR',
+          verdictClass: 'ipr',
+          verdictLabel: 'Closes the loop',
+          analysis: [
+            "Two sentences. Ten seconds. It does everything: names that the session was strong (fighting the recency bias her brain is already applying), and explicitly gives her permission to drop the last rep.",
+            "The walk-off moment is when IPR stops being a drill cue and becomes a <em>life skill</em>. You're extending the lab past the whistle."
+          ],
+          danielle: [
+            "This is my most-used post-practice cue. <em>\"Don't carry that.\"</em> Four words. I use it because the car ride home is where athletes replay the one bad rep on a loop. If I can shrink that loop from 30 minutes to 30 seconds, I've done my job."
+          ]
+        },
+        {
+          key: 'C',
+          text: 'Break down the play with her: "Here\'s what happened on that trap..."',
+          verdict: 'INR',
+          verdictClass: 'inr',
+          verdictLabel: 'Wrong moment for technical analysis',
+          analysis: [
+            "The technical breakdown is useful — tomorrow. Right now, she already knows what happened. Rehearsing it out loud with her coach cements the memory and extends the rumination.",
+            "If the trap genuinely needs work, that's a drill design question for next week. Not a walk-off conversation today."
+          ],
+          danielle: [
+            "Coaches love to teach. Coaches who understand IPR know that <strong>timing of the teach matters more than the teach itself</strong>. Technical feedback after a mistake, in the emotional moment, is a great way to make a great player afraid of making mistakes. Save it for film or next session."
+          ]
+        },
+        {
+          key: 'D',
+          text: 'Joke about it: "Guess you\'re human after all." Fist bump, done.',
+          verdict: 'IPR',
+          verdictClass: 'ipr',
+          verdictLabel: 'Humor + touch = high-skill IPR',
+          analysis: [
+            "For the right athlete, this is perfect. Humor shrinks the mistake. The fist bump is Liberty's Failure Recovery System in miniature: <em>positive touch, instant, no words needed</em>.",
+            "Caveat: know your athlete. Humor from the wrong coach to the wrong player in the wrong moment reads as dismissive. When you know the relationship is there, this move is gold."
+          ],
+          danielle: [
+            "Humor is one of the sharpest tools I have, and the one I'm <em>most</em> careful with. It only works when the athlete trusts that I take her seriously. When that trust is there, a well-timed joke does what a pep talk can't — it tells her <em>this isn't a big deal, and I'm not treating it like one</em>."
+          ]
+        }
+      ]
+    }
+  ];
+
+  let currentScenario = 0;
+  let completed = new Array(scenarios.length).fill(false);
+
+  const scenarioView = document.getElementById('scenarioView');
+  const completionCard = document.getElementById('completion');
+  const trackerPips = document.getElementById('trackerPips');
+  const trackerCount = document.getElementById('trackerCount');
+
+  // Build tracker
+  function renderTracker() {
+    trackerPips.innerHTML = '';
+    scenarios.forEach((_, i) => {
+      const pip = document.createElement('div');
+      pip.className = 'pip';
+      if (i === currentScenario) pip.classList.add('active');
+      if (completed[i]) pip.classList.add('complete');
+      trackerPips.appendChild(pip);
+    });
+    trackerCount.textContent = `${currentScenario + 1} / ${scenarios.length}`;
+  }
+
+  function renderScenario(index) {
+    const s = scenarios[index];
+    scenarioView.innerHTML = `
+      <div class="stage-label">
+        <div class="dot"></div>
+        <span>Scenario <span class="scenario-tag">${index + 1} of ${scenarios.length}</span></span>
+        <div class="line"></div>
+      </div>
+
+      <div class="scenario" data-label="${s.label}">
+        <div class="scenario-title">${s.title}</div>
+        <p class="scenario-text">${s.text}</p>
+        <div class="time-pressure">${s.timing}</div>
+      </div>
+
+      <div class="prompt">
+        <p class="prompt-text">What do you do?</p>
+      </div>
+
+      <div class="choices">
+        ${s.choices.map(c => `
+          <button class="choice" data-choice="${c.key}">
+            <span class="choice-letter">${c.key}</span>
+            <span>${c.text}</span>
+          </button>
+        `).join('')}
+      </div>
+
+      <div class="feedback"></div>
+
+      <div class="controls">
+        <button class="btn" id="tryAgainBtn">↻ Try another choice</button>
+        <button class="btn primary" id="nextBtn" disabled>${index === scenarios.length - 1 ? 'Finish →' : 'Next scenario →'}</button>
+      </div>
+    `;
+
+    attachHandlers(s);
+    renderTracker();
+  }
+
+  function attachHandlers(scenarioData) {
+    const choiceButtons = scenarioView.querySelectorAll('.choice');
+    const feedbackEl = scenarioView.querySelector('.feedback');
+    const tryAgainBtn = scenarioView.querySelector('#tryAgainBtn');
+    const nextBtn = scenarioView.querySelector('#nextBtn');
+    const controls = scenarioView.querySelector('.controls');
+
+    choiceButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const key = btn.dataset.choice;
+        const choice = scenarioData.choices.find(c => c.key === key);
+
+        choiceButtons.forEach(c => {
+          c.disabled = true;
+          c.classList.remove('selected');
+        });
+        btn.classList.add('selected');
+
+        feedbackEl.innerHTML = `
+          <div class="verdict ${choice.verdictClass}">
+            <span>${choice.verdictLabel}</span>
+          </div>
+          <div class="feedback-body">
+            <div class="feedback-label">What this teaches the athlete</div>
+            ${choice.analysis.map(p => `<p class="feedback-text">${p}</p>`).join('')}
+          </div>
+          <div class="danielle-says">
+            ${choice.danielle.map(p => `<p>${p}</p>`).join('')}
+          </div>
+        `;
+        feedbackEl.classList.add('visible');
+        controls.classList.add('visible');
+        nextBtn.disabled = false;
+        completed[currentScenario] = true;
+        renderTracker();
+
+        setTimeout(() => {
+          feedbackEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 100);
+      });
+    });
+
+    tryAgainBtn.addEventListener('click', () => {
+      choiceButtons.forEach(c => {
+        c.disabled = false;
+        c.classList.remove('selected');
+      });
+      feedbackEl.classList.remove('visible');
+      feedbackEl.innerHTML = '';
+      scenarioView.querySelector('.scenario').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+
+    nextBtn.addEventListener('click', () => {
+      if (currentScenario < scenarios.length - 1) {
+        currentScenario++;
+        renderScenario(currentScenario);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else {
+        // Show completion
+        scenarioView.style.display = 'none';
+        completionCard.classList.add('visible');
+        document.querySelector('.tracker').style.display = 'none';
+        completionCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  }
+
+  document.getElementById('restartBtn').addEventListener('click', () => {
+    currentScenario = 0;
+    completed = new Array(scenarios.length).fill(false);
+    completionCard.classList.remove('visible');
+    scenarioView.style.display = 'block';
+    document.querySelector('.tracker').style.display = 'flex';
+    renderScenario(0);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+
+  // Init
+  renderScenario(0);
+</script>
+</body>
+</html>
