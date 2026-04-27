@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IPR // Stress Lab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;800&family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --action-yellow: #dbff00; /* High-vis safety yellow */
+    --action-soft: rgba(219, 255, 0, 0.1);
+    --bg-deep: #0a0a0a;
+    --card-bg: #141414;
+    --text-main: #e0e0e0;
+    --text-dim: #808080;
+    --border-color: #222;
+    --ipr-green: #00ff66;
+    --inr-red: #ff3e3e;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--bg-deep);
+    color: var(--text-main);
+    line-height: 1.4;
+    padding: 0;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  /* The "Terminal" Container */
+  .lab-frame {
+    width: 100%;
+    max-width: 1000px;
+    height: 90vh;
+    border: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    background: var(--bg-deep);
+    box-shadow: 0 40px 100px rgba(0,0,0,0.5);
+  }
+
+  /* Top Bar */
+  .lab-header {
+    padding: 15px 25px;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #000;
+  }
+
+  .lab-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.2em;
+    color: var(--action-yellow);
+  }
+
+  .status-light {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--text-dim);
+  }
+
+  .blink {
+    width: 8px; height: 8px;
+    background: var(--ipr-green);
+    border-radius: 50%;
+    animation: pulse 1.5s infinite;
+  }
+
+  @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
+
+  /* Main Workspace */
+  .workspace {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 1fr 400px;
+    overflow: hidden;
+  }
+
+  .scenario-panel {
+    padding: 60px;
+    border-right: 1px solid var(--border-color);
+    overflow-y: auto;
+    background-image: radial-gradient(circle at 0% 0%, #111 0%, transparent 50%);
+  }
+
+  .stage-id {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--action-yellow);
+    margin-bottom: 20px;
+  }
+
+  .scenario-title {
+    font-size: 42px;
+    font-weight: 900;
+    line-height: 1;
+    margin-bottom: 30px;
+    letter-spacing: -0.03em;
+    color: #fff;
+  }
+
+  .scenario-text {
+    font-size: 20px;
+    color: #ccc;
+    max-width: 500px;
+  }
+
+  .scenario-text strong { color: #fff; border-bottom: 2px solid var(--action-yellow); }
+
+  /* Decision Panel */
+  .decision-panel {
+    background: #0d0d0d;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    overflow-y: auto;
+  }
+
+  .choice-btn {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    padding: 20px;
+    text-align: left;
+    color: var(--text-main);
+    cursor: pointer;
+    font-size: 15px;
+    transition: all 0.2s ease;
+    display: flex;
+    gap: 15px;
+  }
+
+  .choice-btn:hover {
+    border-color: var(--action-yellow);
+    background: #1a1a1a;
+  }
+
+  .choice-btn.selected {
+    border-color: var(--action-yellow);
+    background: var(--action-soft);
+    color: var(--action-yellow);
+  }
+
+  .choice-key {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 800;
+    color: var(--action-yellow);
+  }
+
+  /* Feedback Overlay */
+  .feedback-reveal {
+    margin-top: 20px;
+    padding: 25px;
+    background: #000;
+    border: 1px solid var(--border-color);
+    animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+  .verdict-tag {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    padding: 4px 8px;
+    margin-bottom: 15px;
+    font-weight: 800;
+    text-transform: uppercase;
+  }
+
+  .verdict-tag.ipr { background: var(--ipr-green); color: #000; }
+  .verdict-tag.inr { background: var(--inr-red); color: #fff; }
+  .verdict-tag.mixed { background: var(--action-yellow); color: #000; }
+
+  .analysis-text { font-size: 14px; color: #aaa; margin-bottom: 20px; }
+
+  .coach-note {
+    background: #111;
+    padding: 15px;
+    border-left: 2px solid var(--action-yellow);
+    font-size: 13px;
+    font-style: italic;
+    color: #fff;
+  }
+
+  /* Footer Controls */
+  .footer {
+    padding: 20px 40px;
+    border-top: 1px solid var(--border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #050505;
+  }
+
+  .nav-btn {
+    background: var(--action-yellow);
+    color: #000;
+    border: none;
+    padding: 10px 25px;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 800;
+    font-size: 12px;
+    cursor: pointer;
+    text-transform: uppercase;
+  }
+
+  .nav-btn:disabled { background: #333; color: #666; cursor: default; }
+
+  /* Responsive Fix */
+  @media (max-width: 850px) {
+    .workspace { grid-template-columns: 1fr; }
+    .lab-frame { height: auto; }
+    .scenario-panel { padding: 30px; border-right: none; border-bottom: 1px solid var(--border-color); }
+  }
+</style>
+</head>
+<body>
+
+<div class="lab-frame">
+  <div class="lab-header">
+    <div class="lab-title">IPR // SIMULATION_LAB_V.01</div>
+    <div class="status-light"><div class="blink"></div> ACTIVE_SESSION</div>
+  </div>
+
+  <div class="workspace" id="mainWorkspace">
+    </div>
+
+  <div class="footer">
+    <div id="tracker" style="font-family: 'JetBrains Mono'; font-size: 12px; color: var(--text-dim);">STAGE: 1 / 5</div>
+    <button class="nav-btn" id="nextBtn" disabled>EXECUTE NEXT PHASE</button>
+  </div>
+</div>
+
+<script>
+  // Simplified logic using your content
+  const scenarios = [
+    {
+      id: 1,
+      title: "The Visible Frustration",
+      text: "Player just had a <strong>bad trap</strong>. Slams stick. Heads hangs. mouths 'sorry'.",
+      choices: [
+        { key: 'A', text: "Call her over to discuss the technical error.", verdict: "inr", label: "REINFORCES_INR", analysis: "Stopping play signals that the mistake was big enough to halt the world. You're teaching them that mistakes are 'stops' rather than 'transitions'.", coach: "Teaching moments land better when they're separated from the emotional moment." },
+        { key: 'C', text: "Make eye contact, point to head, and clap.", verdict: "ipr", label: "EXECUTE_IPR", analysis: "This affirms the athlete while keeping play moving. It names the behavior (reset) without wasting a second of game-time.", coach: "The clap is the part most coaches miss—it turns a correction into a connection." }
+      ]
+    },
+    {
+      id: 2,
+      title: "The Silent Shutdown",
+      text: "A usually vocal player goes <strong>ghost</strong>. No stick slam, no reaction. Just absent.",
+      choices: [
+        { key: 'B', text: "Pull her aside: 'What’s going on with you today?'", verdict: "ipr", label: "EXECUTE_IPR", analysis: "Quiet, curious, private. This is a door, not a correction. Often, the silent shutdown isn't about the sport at all.", coach: "Withdrawal isn't laziness. It's a form of INR that doesn't look like INR." },
+        { key: 'C', text: "Give her a small, specific job.", verdict: "ipr", label: "ENGAGEMENT_MOVE", analysis: "Concrete tasks pull athletes out of their internal loop. It re-engages the brain through external responsibility.", coach: "Giving her a job means she has to choose to engage, not confess to something first." }
+      ]
+    }
+  ];
+
+  let currentIdx = 0;
+
+  const workspace = document.getElementById('mainWorkspace');
+  const nextBtn = document.getElementById('nextBtn');
+  const tracker = document.getElementById('tracker');
+
+  function render() {
+    const s = scenarios[currentIdx];
+    workspace.innerHTML = `
+      <div class="scenario-panel">
+        <div class="stage-id">INPUT_REQUIRED // SCENARIO_0${s.id}</div>
+        <h1 class="scenario-title">${s.title}</h1>
+        <p class="scenario-text">${s.text}</p>
+      </div>
+      <div class="decision-panel">
+        <div style="font-family: 'JetBrains Mono'; font-size: 11px; color: var(--text-dim); margin-bottom: 10px;">SELECT_RESPONSE:</div>
+        ${s.choices.map(c => `
+          <button class="choice-btn" onclick="selectChoice('${c.key}')">
+            <span class="choice-key">${c.key}</span>
+            <span>${c.text}</span>
+          </button>
+        `).join('')}
+        <div id="feedbackContainer"></div>
+      </div>
+    `;
+    tracker.innerText = `STAGE: ${currentIdx + 1} / ${scenarios.length}`;
+    nextBtn.disabled = true;
+  }
+
+  window.selectChoice = (key) => {
+    const s = scenarios[currentIdx];
+    const choice = s.choices.find(c => c.key === key);
+    
+    // Highlight selected
+    document.querySelectorAll('.choice-btn').forEach(b => b.classList.remove('selected'));
+    event.currentTarget.classList.add('selected');
+
+    document.getElementById('feedbackContainer').innerHTML = `
+      <div class="feedback-reveal">
+        <div class="verdict-tag ${choice.verdict}">${choice.label}</div>
+        <div class="analysis-text">${choice.analysis}</div>
+        <div class="coach-note"><strong>COACH_LOG:</strong> ${choice.coach}</div>
+      </div>
+    `;
+    nextBtn.disabled = false;
+  };
+
+  nextBtn.onclick = () => {
+    if (currentIdx < scenarios.length - 1) {
+      currentIdx++;
+      render();
+    } else {
+      workspace.innerHTML = `<div style="grid-column: 1/-1; display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; padding: 40px;">
+        <h1 style="font-size: 60px; color: var(--action-yellow);">SIMULATION_COMPLETE</h1>
+        <p style="color: var(--text-dim); max-width: 400px; margin-top: 20px;">IPR is a muscle. You've completed the initial calibration. Build the habit.</p>
+        <button class="nav-btn" style="margin-top: 40px;" onclick="location.reload()">RE-INITIALIZE</button>
+      </div>`;
+      nextBtn.style.display = 'none';
+    }
+  };
+
+  render();
+</script>
+</body>
+</html>
